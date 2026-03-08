@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Mail, Lock, LogIn, Shield, User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { auth, db } from "../firebase";
+import { doc, getDoc } from 'firebase/firestore';
 import './../index.css';
 
 const Login = ({ role = "student" }) => {
@@ -44,6 +45,23 @@ const Login = ({ role = "student" }) => {
             setLoading(true);
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             console.log("Login successful:", userCredential.user);
+
+            // Check if user role matches the login portal role
+            const userDoc = await getDoc(doc(db, "user", userCredential.user.uid));
+            if (userDoc.exists()) {
+                const userData = userDoc.data();
+                if (userData.role !== role) {
+                    await signOut(auth); // Sign out the user
+                    setError(`Access denied. You are registered as a ${userData.role}, not an ${role}.`);
+                    setLoading(false);
+                    return;
+                }
+            } else {
+                await signOut(auth);
+                setError("User data not found. Access denied.");
+                setLoading(false);
+                return;
+            }
 
             if (isAdmin) {
                 navigate('/admin/dashboard');

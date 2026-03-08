@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { LayoutDashboard, Users, CheckSquare, XSquare, LogOut, Check, X, Clock, CheckCircle, XCircle, BarChart3, FileText, AlertCircle, Trash2 } from 'lucide-react';
+import { LayoutDashboard, Users, CheckSquare, XSquare, LogOut, Check, X, Clock, CheckCircle, XCircle, BarChart3, FileText, AlertCircle, Trash2, Search, Filter } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { db } from "../firebase";
 import { collection, query, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
@@ -10,6 +10,12 @@ const AdminDashboard = () => {
     const [complaints, setComplaints] = useState([]);
     const [activeView, setActiveView] = useState('management');
     const [loading, setLoading] = useState(true);
+
+    // Filter and Sort states
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filterStatus, setFilterStatus] = useState('All');
+    const [filterCategory, setFilterCategory] = useState('All');
+    const [sortBy, setSortBy] = useState('Newest');
 
     React.useEffect(() => {
         const fetchAllComplaints = async () => {
@@ -122,6 +128,24 @@ const AdminDashboard = () => {
         return String(dateValue);
     };
 
+    const uniqueCategories = ['All', ...new Set(complaints.map(c => c.category || 'General'))];
+
+    const filteredHistoryComplaints = complaints.filter(c => {
+        const searchLower = searchTerm.toLowerCase();
+        const matchesSearch = (c.title && c.title.toLowerCase().includes(searchLower)) ||
+            (c.id && c.id.toLowerCase().includes(searchLower));
+        const matchesStatus = filterStatus === 'All' || (c.status && c.status.toLowerCase() === filterStatus.toLowerCase());
+        const category = c.category || 'General';
+        const matchesCategory = filterCategory === 'All' || category === filterCategory;
+
+        return matchesSearch && matchesStatus && matchesCategory;
+    }).sort((a, b) => {
+        const timeA = a.date?.seconds || 0;
+        const timeB = b.date?.seconds || 0;
+        return sortBy === 'Newest' ? timeB - timeA : timeA - timeB;
+    });
+
+
     return (
         <div style={{ display: 'flex', minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)', color: '#0f172a', fontFamily: 'Inter, system-ui, sans-serif' }}>
             <aside style={{ width: '260px', margin: '1rem', padding: '1.5rem', display: 'flex', flexDirection: 'column', borderRadius: '1rem', background: '#ffffff', border: '1px solid #f1f5f9', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.05)' }}>
@@ -225,19 +249,63 @@ const AdminDashboard = () => {
                         </div>
 
                         <div style={{ padding: '2rem', borderRadius: '1rem', background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                                 <h2 style={{ fontSize: '1.5rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Complaint History</h2>
-                                <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600', padding: '0.4rem 1rem', background: '#f8fafc', borderRadius: '2rem', border: '1px solid #e2e8f0' }}>Total: {complaints.length} entries</span>
+                                <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600', padding: '0.4rem 1rem', background: '#f8fafc', borderRadius: '2rem', border: '1px solid #e2e8f0' }}>Total: {filteredHistoryComplaints.length} entries</span>
                             </div>
 
-                            {complaints.length === 0 ? (
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem', background: '#f8fafc', padding: '1rem', borderRadius: '0.75rem', border: '1px solid #e2e8f0' }}>
+                                <div style={{ flex: '1 1 200px', display: 'flex', alignItems: 'center', background: '#fff', border: '1px solid #cbd5e1', borderRadius: '0.5rem', padding: '0 0.75rem', transition: 'border-color 0.2s' }} onFocus={(e) => e.currentTarget.style.borderColor = '#2563eb'} onBlur={(e) => e.currentTarget.style.borderColor = '#cbd5e1'}>
+                                    <Search size={18} color="#64748b" />
+                                    <input
+                                        type="text"
+                                        placeholder="Search by title or ID..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        style={{ border: 'none', outline: 'none', padding: '0.75rem', width: '100%', background: 'transparent', fontSize: '0.9rem', color: '#0f172a' }}
+                                    />
+                                </div>
+                                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', flex: '1 1 auto' }}>
+                                    <select
+                                        value={filterStatus}
+                                        onChange={(e) => setFilterStatus(e.target.value)}
+                                        style={{ flex: '1 1 130px', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid #cbd5e1', outline: 'none', fontSize: '0.9rem', background: '#fff', color: '#0f172a', cursor: 'pointer' }}
+                                    >
+                                        <option value="All">All Statuses</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Accepted">Accepted</option>
+                                        <option value="Resolved">Resolved</option>
+                                        <option value="Rejected">Rejected</option>
+                                        <option value="Unresolved">Unresolved</option>
+                                    </select>
+                                    <select
+                                        value={filterCategory}
+                                        onChange={(e) => setFilterCategory(e.target.value)}
+                                        style={{ flex: '1 1 130px', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid #cbd5e1', outline: 'none', fontSize: '0.9rem', background: '#fff', color: '#0f172a', cursor: 'pointer' }}
+                                    >
+                                        {uniqueCategories.map(cat => (
+                                            <option key={cat} value={cat}>{cat === 'All' ? 'All Categories' : cat}</option>
+                                        ))}
+                                    </select>
+                                    <select
+                                        value={sortBy}
+                                        onChange={(e) => setSortBy(e.target.value)}
+                                        style={{ flex: '1 1 130px', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid #cbd5e1', outline: 'none', fontSize: '0.9rem', background: '#fff', color: '#0f172a', cursor: 'pointer' }}
+                                    >
+                                        <option value="Newest">Newest First</option>
+                                        <option value="Oldest">Oldest First</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            {filteredHistoryComplaints.length === 0 ? (
                                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', minHeight: '300px' }}>
                                     <FileText size={72} style={{ opacity: 0.5, marginBottom: '1.5rem', color: '#cbd5e1' }} />
-                                    <p style={{ fontSize: '1.25rem', fontWeight: '500' }}>No complaints found in the system.</p>
+                                    <p style={{ fontSize: '1.25rem', fontWeight: '500' }}>No complaints match your filters.</p>
                                 </div>
                             ) : (
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                                    {[...complaints].reverse().map(complaint => {
+                                    {filteredHistoryComplaints.map(complaint => {
                                         const colors = getStatusColor(complaint.status);
                                         return (
                                             <div key={complaint.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', background: '#ffffff', borderRadius: '1rem', border: '1px solid #e2e8f0', transition: 'all 0.2s ease', boxShadow: '0 1px 3px 0 rgba(0,0,0,0.05)' }} onMouseOver={(e) => { e.currentTarget.style.borderColor = '#cbd5e1'; e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0,0,0,0.05)'; }} onMouseOut={(e) => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0,0,0,0.05)'; }}>

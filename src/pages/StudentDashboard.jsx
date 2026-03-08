@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { FileText, PlusCircle, CheckCircle, XCircle, Clock, LayoutDashboard, LogOut, BarChart3, Check, AlertCircle, Trash2 } from 'lucide-react';
+import { FileText, PlusCircle, CheckCircle, XCircle, Clock, LayoutDashboard, LogOut, BarChart3, Check, AlertCircle, Trash2, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ComplaintContext } from '../context/ComplaintContext';
 import { addDoc, collection, doc, deleteDoc } from "firebase/firestore";
@@ -30,6 +30,31 @@ const StudentDashboard = () => {
         category: 'Infrastructure',
         issue: ''
     });
+
+    const [userName, setUserName] = useState('');
+
+    React.useEffect(() => {
+        const fetchUserData = async () => {
+            if (!auth.currentUser) return;
+            try {
+                if (auth.currentUser.displayName) {
+                    setUserName(auth.currentUser.displayName);
+                } else {
+                    const { getDoc } = await import("firebase/firestore");
+                    const userDoc = await getDoc(doc(db, "user", auth.currentUser.uid));
+                    if (userDoc.exists()) {
+                        setUserName(userDoc.data().name || 'Student');
+                    } else {
+                        setUserName('Student');
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                setUserName('Student');
+            }
+        };
+        fetchUserData();
+    }, []);
 
     React.useEffect(() => {
         // Fetch complaints from Firestore
@@ -205,10 +230,21 @@ const StudentDashboard = () => {
             {/* Main Content */}
             <main style={{ flex: 1, padding: '1rem 2rem 1rem 1rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
 
-                {/* Dynamic Title based on view */}
-                <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
-                    {activeView === 'submit' ? 'Submit a New Complaint' : 'My Complaints Overview'}
-                </h1>
+                {/* Header Section */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    {/* Dynamic Title based on view */}
+                    <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
+                        {activeView === 'submit' ? 'Submit a New Complaint' : 'My Complaints Overview'}
+                    </h1>
+
+                    {/* User Profile */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'rgba(255, 255, 255, 0.6)', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid rgba(255,255,255,0.8)' }}>
+                        <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                            <User size={20} />
+                        </div>
+                        <span style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize: '0.95rem' }}>{userName || 'Loading...'}</span>
+                    </div>
+                </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                     {/* Submit Form View */}
