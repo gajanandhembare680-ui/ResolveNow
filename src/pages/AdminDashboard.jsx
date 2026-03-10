@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+﻿import React, { useContext, useState } from 'react';
 import { LayoutDashboard, Users, CheckSquare, XSquare, LogOut, Check, X, Clock, CheckCircle, XCircle, BarChart3, FileText, AlertCircle, Trash2, Search, Filter, Menu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { db } from "../firebase";
@@ -148,10 +148,10 @@ const AdminDashboard = () => {
 
 
     return (
-        <div className="app-container" style={{ color: '#0f172a', fontFamily: 'Inter, system-ui, sans-serif' }}>
+        <div className="dashboard-container" style={{ display: 'flex', minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)', color: '#0f172a', fontFamily: 'Inter, system-ui, sans-serif' }}>
             {/* Mobile Header & Overlay */}
             <div className={`mobile-overlay ${isSidebarOpen ? 'open' : ''}`} onClick={() => setIsSidebarOpen(false)}></div>
-            <div className="mobile-header">
+            <div className="mobile-header" style={{ background: '#ffffff' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#2563eb' }}>
                     <LayoutDashboard size={24} />
                     <h2 style={{ fontSize: '1.2rem', fontWeight: '800', margin: 0, letterSpacing: '-0.025em' }}>Admin Portal</h2>
@@ -161,10 +161,10 @@ const AdminDashboard = () => {
                 </button>
             </div>
 
-            <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+            <aside className={`dashboard-sidebar ${isSidebarOpen ? 'open' : ''}`} style={{ width: '260px', margin: '1rem', padding: '1.5rem', display: 'flex', flexDirection: 'column', borderRadius: '1rem', background: '#ffffff', border: '1px solid #f1f5f9', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.05)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2.5rem', color: '#2563eb' }}>
                     <LayoutDashboard size={28} />
-                    <h2 style={{ fontSize: '1.35rem', fontWeight: '800', letterSpacing: '-0.025em', margin: 0 }}>Admin Portal</h2>
+                    <h2 style={{ fontSize: '1.35rem', fontWeight: '800', letterSpacing: '-0.025em' }}>Admin Portal</h2>
                 </div>
                 <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
                     <a href="#" onClick={(e) => { e.preventDefault(); setActiveView('management'); setIsSidebarOpen(false); }} style={{ padding: '0.875rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem', background: activeView === 'management' ? '#eff6ff' : 'transparent', borderRadius: '0.75rem', color: activeView === 'management' ? '#2563eb' : '#64748b', fontWeight: activeView === 'management' ? '600' : '500', textDecoration: 'none', transition: 'all 0.2s' }}>
@@ -179,12 +179,12 @@ const AdminDashboard = () => {
                 </Link>
             </aside>
 
-            <main className="main-content">
+            <main className="dashboard-main" style={{ flex: 1, padding: '2rem 3rem 2rem 1rem', display: 'flex', flexDirection: 'column', gap: '2rem', overflowY: 'auto' }}>
                 {activeView === 'management' && (
                     <>
                         <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                             <div>
-                                <h1 style={{ fontSize: '2rem', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.025em' }}>Complaint Management</h1>
+                                <h1 className="desktop-header-title" style={{ fontSize: '2rem', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.025em' }}>Complaint Management</h1>
                                 <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem' }}>You have <span style={{ fontWeight: '700', color: '#2563eb' }}>{actionComplaints.length}</span> complaints requiring action ({pendingComplaints.length} pending, {acceptedComplaints.length} in progress).</p>
                             </div>
                         </header>
@@ -194,7 +194,7 @@ const AdminDashboard = () => {
                                 <p style={{ fontSize: '1.25rem', fontWeight: '500' }}>No action required. Caught up!</p>
                             </div>
                         ) : (
-                            <div className="grid-cards">
+                            <div className="admin-management-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '1.5rem' }}>
                                 {actionComplaints.map(complaint => {
                                     const colors = getStatusColor(complaint.status);
                                     return (
@@ -210,7 +210,7 @@ const AdminDashboard = () => {
                                             </div>
                                             <div style={{ marginBottom: '1.5rem', flex: 1 }}>
                                                 <h4 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#1e293b', marginBottom: '0.5rem' }}>{complaint.title}</h4>
-                                                <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.6' }}>"{complaint.issue}"</p>
+                                                <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.6' }}>{complaint.issue}</p>
                                             </div>
                                             <div style={{ display: 'flex', gap: '0.75rem', marginTop: 'auto', flexWrap: 'wrap' }}>
                                                 {complaint.status && complaint.status.toLowerCase() === 'pending' && (
@@ -249,12 +249,12 @@ const AdminDashboard = () => {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
                         <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 0 0 0' }}>
                             <div>
-                                <h1 style={{ fontSize: '2rem', fontWeight: '800', color: '#0f172a', margin: 0, letterSpacing: '-0.025em' }}>All Complaints Overview</h1>
+                                <h1 className="desktop-header-title" style={{ fontSize: '2rem', fontWeight: '800', color: '#0f172a', margin: 0, letterSpacing: '-0.025em' }}>All Complaints Overview</h1>
                                 <p style={{ color: '#64748b', fontSize: '1.05rem', margin: '0.5rem 0 0 0' }}>Comprehensive view of all submitted complaints.</p>
                             </div>
                         </header>
 
-                        <div className="grid-stats">
+                        <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
                             <StatCard title="Total" count={totalComplaints} icon={BarChart3} color="#2563eb" bg="#dbeafe" />
                             <StatCard title="Pending" count={pendingComplaints.length} icon={Clock} color="#d97706" bg="#fef3c7" />
                             <StatCard title="Accepted" count={acceptedComplaints.length} icon={Check} color="#2563eb" bg="#dbeafe" />
@@ -262,12 +262,12 @@ const AdminDashboard = () => {
                         </div>
 
                         <div style={{ padding: '2rem', borderRadius: '1rem', background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                            <div className="flex-header" style={{ marginBottom: '1.5rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                                 <h2 style={{ fontSize: '1.5rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Complaint History</h2>
                                 <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600', padding: '0.4rem 1rem', background: '#f8fafc', borderRadius: '2rem', border: '1px solid #e2e8f0' }}>Total: {filteredHistoryComplaints.length} entries</span>
                             </div>
 
-                            <div className="filters-wrapper" style={{ marginBottom: '2rem', background: '#f8fafc', padding: '1rem', borderRadius: '0.75rem', border: '1px solid #e2e8f0' }}>
+                            <div className="filters-wrapper" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem', background: '#f8fafc', padding: '1rem', borderRadius: '0.75rem', border: '1px solid #e2e8f0' }}>
                                 <div style={{ flex: '1 1 200px', display: 'flex', alignItems: 'center', background: '#fff', border: '1px solid #cbd5e1', borderRadius: '0.5rem', padding: '0 0.75rem', transition: 'border-color 0.2s' }} onFocus={(e) => e.currentTarget.style.borderColor = '#2563eb'} onBlur={(e) => e.currentTarget.style.borderColor = '#cbd5e1'}>
                                     <Search size={18} color="#64748b" />
                                     <input
@@ -314,28 +314,25 @@ const AdminDashboard = () => {
                             {filteredHistoryComplaints.length === 0 ? (
                                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', minHeight: '300px' }}>
                                     <FileText size={72} style={{ opacity: 0.5, marginBottom: '1.5rem', color: '#cbd5e1' }} />
-                                    <p style={{ fontSize: '1.25rem', fontWeight: '500', textAlign: 'center' }}>No complaints match your filters.</p>
+                                    <p style={{ fontSize: '1.25rem', fontWeight: '500' }}>No complaints match your filters.</p>
                                 </div>
                             ) : (
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                                     {filteredHistoryComplaints.map(complaint => {
                                         const colors = getStatusColor(complaint.status);
                                         return (
-                                            <div key={complaint.id} className="list-item-responsive" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', background: '#ffffff', borderRadius: '1rem', border: '1px solid #e2e8f0', transition: 'all 0.2s ease', boxShadow: '0 1px 3px 0 rgba(0,0,0,0.05)' }} onMouseOver={(e) => { e.currentTarget.style.borderColor = '#cbd5e1'; e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0,0,0,0.05)'; }} onMouseOut={(e) => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0,0,0,0.05)'; }}>
+                                            <div key={complaint.id} className="list-item-mobile" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', background: '#ffffff', borderRadius: '1rem', border: '1px solid #e2e8f0', transition: 'all 0.2s ease', boxShadow: '0 1px 3px 0 rgba(0,0,0,0.05)' }} onMouseOver={(e) => { e.currentTarget.style.borderColor = '#cbd5e1'; e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0,0,0,0.05)'; }} onMouseOut={(e) => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0,0,0,0.05)'; }}>
                                                 <div style={{ flex: 1 }}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.4rem', flexWrap: 'wrap' }}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.4rem' }}>
                                                         <h3 style={{ fontSize: '1.15rem', fontWeight: '700', color: '#0f172a', margin: 0 }}>{complaint.title}</h3>
                                                         <span style={{ fontSize: '0.75rem', color: '#64748b', padding: '0.2rem 0.6rem', background: '#f1f5f9', borderRadius: '1rem', fontWeight: '600' }}>ID: #{complaint.id}</span>
                                                     </div>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', color: '#64748b', fontWeight: '500', flexWrap: 'wrap' }}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.9rem', color: '#64748b', fontWeight: '500' }}>
                                                         <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}><Users size={16} /> {complaint.student}</span>
-                                                        <span style={{ display: 'none' }} className="d-sm-inline">•</span>
-                                                        <span style={{ background: '#f8fafc', padding: '0.1rem 0.5rem', borderRadius: '0.5rem' }}>{complaint.category || 'General'}</span>
-                                                        <span style={{ display: 'none' }} className="d-sm-inline">•</span>
-                                                        <span>{formatDate(complaint.date)}</span>
+                                                        <span>•</span><span>{complaint.category || 'General'}</span><span>•</span><span>{formatDate(complaint.date)}</span>
                                                     </div>
                                                 </div>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                                <div className="list-item-mobile-actions" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', borderRadius: '2rem', background: colors.bg, color: colors.text, border: `1px solid ${colors.border}`, fontWeight: '700', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>
                                                         {getStatusIcon(complaint.status)} {complaint.status}
                                                     </div>

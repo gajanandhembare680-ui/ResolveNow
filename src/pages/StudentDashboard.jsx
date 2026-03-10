@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+﻿import React, { useState, useContext } from 'react';
 import { FileText, PlusCircle, CheckCircle, XCircle, Clock, LayoutDashboard, LogOut, BarChart3, Check, AlertCircle, Trash2, User, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ComplaintContext } from '../context/ComplaintContext';
@@ -178,7 +178,7 @@ const StudentDashboard = () => {
     );
 
     return (
-        <div className="app-container">
+        <div className="dashboard-container" style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-gradient)' }}>
             {/* Mobile Header & Overlay */}
             <div className={`mobile-overlay ${isSidebarOpen ? 'open' : ''}`} onClick={() => setIsSidebarOpen(false)}></div>
             <div className="mobile-header">
@@ -192,10 +192,10 @@ const StudentDashboard = () => {
             </div>
 
             {/* Sidebar */}
-            <aside className={`sidebar glass-panel ${isSidebarOpen ? 'open' : ''}`}>
+            <aside className={`glass-panel dashboard-sidebar ${isSidebarOpen ? 'open' : ''}`} style={{ width: '250px', margin: '1rem', padding: '1.5rem', display: 'flex', flexDirection: 'column', borderRadius: '1rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem', color: 'var(--accent-primary)' }}>
                     <LayoutDashboard size={24} />
-                    <h2 style={{ fontSize: '1.25rem', fontWeight: '700', margin: 0 }}>Student Portal</h2>
+                    <h2 style={{ fontSize: '1.25rem', fontWeight: '700' }}>Student Portal</h2>
                 </div>
 
                 <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
@@ -241,12 +241,12 @@ const StudentDashboard = () => {
             </aside>
 
             {/* Main Content */}
-            <main className="main-content">
+            <main className="dashboard-main" style={{ flex: 1, padding: '1rem 2rem 1rem 1rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
 
                 {/* Header Section */}
-                <div className="flex-header">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     {/* Dynamic Title based on view */}
-                    <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
+                    <h1 className="desktop-header-title" style={{ fontSize: '1.875rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
                         {activeView === 'submit' ? 'Submit a New Complaint' : 'My Complaints Overview'}
                     </h1>
 
@@ -265,7 +265,7 @@ const StudentDashboard = () => {
                         <div className="glass-panel" style={{ padding: '2rem', borderRadius: '1rem' }}>
                             <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>Please fill out the form below to lodge a formal complaint. Your submission will be reviewed by an administrator.</p>
                             <form style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px' }} onSubmit={handleSubmit}>
-                                <div className="form-grid">
+                                <div className="form-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem' }}>
                                     <div>
                                         <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Title</label>
                                         <input
@@ -318,7 +318,7 @@ const StudentDashboard = () => {
                     {activeView === 'recent' && (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                             {/* Overall Stats Section (Only shown in 'recent' view) */}
-                            <div className="grid-stats">
+                            <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
                                 <StatCard title="Total" count={totalComplaints} icon={BarChart3} color="#3b82f6" bg="rgba(59, 130, 246, 0.2)" />
                                 <StatCard title="Pending" count={pendingComplaints} icon={Clock} color="#eab308" bg="rgba(234, 179, 8, 0.2)" />
                                 <StatCard title="Accepted" count={acceptedComplaints} icon={Check} color="#3b82f6" bg="rgba(59, 130, 246, 0.2)" />
@@ -328,7 +328,7 @@ const StudentDashboard = () => {
                             </div>
 
                             <div id="recent" className="glass-panel" style={{ padding: '2rem', borderRadius: '1rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                                <div className="flex-header" style={{ marginBottom: '1.5rem' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                                     <h2 style={{ fontSize: '1.5rem', fontWeight: '700', color: 'var(--text-primary)', margin: 0 }}>Complaint History</h2>
                                     <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Total: {studentComplaints.length} entries</span>
                                 </div>
@@ -346,12 +346,12 @@ const StudentDashboard = () => {
                                         </button>
                                     </div>
                                 ) : (
-                                    <div className="grid-cards">
+                                    <div className="complaints-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(600px, 1fr))', gap: '1rem' }}>
                                         {/* Sort complaints so newest is on top (assuming ascending ID means older) */}
                                         {[...studentComplaints].reverse().map(complaint => {
                                             const colors = getStatusColor(complaint.status);
                                             return (
-                                                <div key={complaint.id} className="list-item-responsive" style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', padding: '1.5rem', background: 'rgba(255,255,255,0.6)', borderRadius: '0.75rem', border: '1px solid rgba(255,255,255,0.8)', transition: 'transform 0.2s ease, box-shadow 0.2s ease' }}
+                                                <div key={complaint.id} className="list-item-mobile" style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', padding: '1.5rem', background: 'rgba(255,255,255,0.6)', borderRadius: '0.75rem', border: '1px solid rgba(255,255,255,0.8)', transition: 'transform 0.2s ease, box-shadow 0.2s ease' }}
                                                     onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.05)' }}
                                                     onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
                                                 >
@@ -361,7 +361,7 @@ const StudentDashboard = () => {
                                                             <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{formatDate(complaint.date)}</span>
                                                         </div>
                                                         <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{complaint.title}</h3>
-                                                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5, marginBottom: '0.75rem' }}>"{complaint.issue}"</p>
+                                                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5, marginBottom: '0.75rem' }}>{complaint.issue}</p>
 
                                                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.8rem', color: 'var(--text-primary)', background: 'white', padding: '0.25rem 0.75rem', borderRadius: '1rem', border: '1px solid rgba(0,0,0,0.1)' }}>
                                                             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--accent-primary)', display: 'inline-block' }}></span>
@@ -369,7 +369,7 @@ const StudentDashboard = () => {
                                                         </span>
                                                     </div>
 
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                                    <div className="list-item-mobile-actions" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                                         <div style={{
                                                             display: 'flex',
                                                             alignItems: 'center',
