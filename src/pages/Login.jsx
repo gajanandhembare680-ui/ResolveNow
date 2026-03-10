@@ -125,7 +125,6 @@ const Login = ({ role = "student" }) => {
                             <input type="checkbox" style={{ accentColor: isAdmin ? '#0f172a' : 'var(--accent-primary)' }} />
                             <span style={{ color: 'var(--text-secondary)' }}>Remember me</span>
                         </label>
-                        <a href="#" className="link" style={isAdmin ? { color: '#475569' } : {}}>Forgot password?</a>
                     </div>
 
                     <button type="submit" disabled={loading} className={isAdmin ? '' : 'btn-primary'} style={isAdmin ? adminBtnStyle : { display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
