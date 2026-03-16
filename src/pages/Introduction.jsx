@@ -431,11 +431,6 @@ const Introduction = () => {
                     fontSize: '0.875rem'
                 }}>
                     <p>&copy; {new Date().getFullYear()} ResolveIt. All rights reserved.</p>
-                    <div style={{ display: 'flex', gap: '1.5rem' }}>
-                        <a href="#" style={{ color: '#94a3b8', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = '#ffffff'} onMouseOut={(e) => e.target.style.color = '#94a3b8'}>Twitter</a>
-                        <a href="#" style={{ color: '#94a3b8', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = '#ffffff'} onMouseOut={(e) => e.target.style.color = '#94a3b8'}>LinkedIn</a>
-                        <a href="#" style={{ color: '#94a3b8', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = '#ffffff'} onMouseOut={(e) => e.target.style.color = '#94a3b8'}>GitHub</a>
-                    </div>
                 </div>
             </footer>
         </div>
