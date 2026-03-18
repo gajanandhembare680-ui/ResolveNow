@@ -399,14 +399,7 @@ const Introduction = () => {
                         </p>
                     </div>
 
-                    <div style={{ flex: '1 1 150px' }}>
-                        <h4 style={{ color: '#ffffff', fontWeight: '600', marginBottom: '1.25rem' }}>Quick Links</h4>
-                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                            <li><Link to="/role-selection" style={{ color: '#94a3b8', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = '#ffffff'} onMouseOut={(e) => e.target.style.color = '#94a3b8'}>Home</Link></li>
-                            <li><Link to="/role-selection" style={{ color: '#94a3b8', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = '#ffffff'} onMouseOut={(e) => e.target.style.color = '#94a3b8'}>Submit Issue</Link></li>
-                            <li><Link to="/role-selection" style={{ color: '#94a3b8', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = '#ffffff'} onMouseOut={(e) => e.target.style.color = '#94a3b8'}>Admin Login</Link></li>
-                        </ul>
-                    </div>
+
 
                     <div style={{ flex: '1 1 150px' }}>
                         <h4 style={{ color: '#ffffff', fontWeight: '600', marginBottom: '1.25rem' }}>Legal</h4>
