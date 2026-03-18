@@ -15,6 +15,7 @@ const StudentDashboard = () => {
     const [fetchedComplaints, setFetchedComplaints] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [showLogout, setShowLogout] = useState(false);
 
     // Filter complaints for the "current" student directly from the Firestore results
     const studentComplaints = fetchedComplaints;
@@ -260,16 +261,20 @@ const StudentDashboard = () => {
                     </h1>
 
                     {/* User Profile & Logout */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'rgba(255, 255, 255, 0.6)', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid rgba(255,255,255,0.8)' }}>
+                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                        <div onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'rgba(255, 255, 255, 0.6)', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid rgba(255,255,255,0.8)' }}>
                             <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
                                 <User size={20} />
                             </div>
-                            <span style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize: '0.95rem' }}>{userName || 'Loading...'}</span>
+                            <span style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize: '0.95rem', userSelect: 'none' }}>{userName || 'Loading...'}</span>
                         </div>
-                        <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca', padding: '0.5rem 1rem', borderRadius: '2rem', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s ease' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#fecaca'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#fee2e2'; }}>
-                            <LogOut size={18} /> <span className="hide-on-mobile">Logout</span>
-                        </button>
+                        {showLogout && (
+                            <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '0.5rem', zIndex: 50 }}>
+                                <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#ffffff', color: '#dc2626', border: '1px solid #fecaca', padding: '0.75rem 1.5rem', borderRadius: '1rem', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s ease', whiteSpace: 'nowrap', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#fef2f2'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#ffffff'; }}>
+                                    <LogOut size={18} /> Logout
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
 
