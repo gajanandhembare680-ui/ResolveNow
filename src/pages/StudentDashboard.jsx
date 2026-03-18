@@ -1,13 +1,15 @@
-﻿import React, { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { FileText, PlusCircle, CheckCircle, XCircle, Clock, LayoutDashboard, LogOut, BarChart3, Check, AlertCircle, Trash2, User, Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ComplaintContext } from '../context/ComplaintContext';
 import { addDoc, collection, doc, deleteDoc } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 import { db, auth } from "../firebase";
 import './../index.css';
 
 const StudentDashboard = () => {
     const { complaints, addComplaint } = useContext(ComplaintContext);
+    const navigate = useNavigate();
 
     const [activeView, setActiveView] = useState('submit');
     const [fetchedComplaints, setFetchedComplaints] = useState([]);
@@ -89,6 +91,15 @@ const StudentDashboard = () => {
 
         fetchComplaints();
     }, [activeView]); // Re-fetch when view changes (e.g. after submit)
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            navigate('/');
+        } catch (error) {
+            console.error("Error logging out", error);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -235,9 +246,7 @@ const StudentDashboard = () => {
                     </a>
                 </nav>
 
-                <Link to="/" className="link" style={{ padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--error)', marginTop: 'auto' }}>
-                    <LogOut size={20} /> Logout
-                </Link>
+
             </aside>
 
             {/* Main Content */}
@@ -250,12 +259,17 @@ const StudentDashboard = () => {
                         {activeView === 'submit' ? 'Submit a New Complaint' : 'My Complaints Overview'}
                     </h1>
 
-                    {/* User Profile */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'rgba(255, 255, 255, 0.6)', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid rgba(255,255,255,0.8)' }}>
-                        <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-                            <User size={20} />
+                    {/* User Profile & Logout */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'rgba(255, 255, 255, 0.6)', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid rgba(255,255,255,0.8)' }}>
+                            <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                                <User size={20} />
+                            </div>
+                            <span style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize: '0.95rem' }}>{userName || 'Loading...'}</span>
                         </div>
-                        <span style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize: '0.95rem' }}>{userName || 'Loading...'}</span>
+                        <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca', padding: '0.5rem 1rem', borderRadius: '2rem', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s ease' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#fecaca'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#fee2e2'; }}>
+                            <LogOut size={18} /> <span className="hide-on-mobile">Logout</span>
+                        </button>
                     </div>
                 </div>
 
