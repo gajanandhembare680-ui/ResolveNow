@@ -7,7 +7,7 @@ const RoleSelection = () => {
     return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '1rem' }}>
             <div className="glass-panel" style={{ width: '100%', maxWidth: '500px', padding: '3rem 2rem', textAlign: 'center' }}>
-                <h1 style={{ fontSize: '2.25rem', fontWeight: '800', marginBottom: '1rem', color: 'var(--text-primary)' }}>Welcome to CMS</h1>
+                <h1 style={{ fontSize: '2.25rem', fontWeight: '800', marginBottom: '1rem', color: 'var(--text-primary)' }}>Welcome to ResolveNow</h1>
                 <p style={{ color: 'var(--text-secondary)', marginBottom: '3rem', fontSize: '1.1rem' }}>Please select your role to continue</p>
 
                 <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
