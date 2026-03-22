@@ -1,14 +1,15 @@
 import React, { useContext, useState } from 'react';
-import { LayoutDashboard, Users, CheckSquare, XSquare, LogOut, Check, X, Clock, CheckCircle, XCircle, BarChart3, FileText, AlertCircle, Trash2, Search, Filter, Menu, User } from 'lucide-react';
+import { LayoutDashboard, Users, CheckSquare, XSquare, LogOut, Check, X, Clock, CheckCircle, XCircle, BarChart3, FileText, AlertCircle, Trash2, Search, Filter, Menu, User, UserCog } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { db, auth } from "../firebase";
-import { collection, query, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { collection, query, getDocs, doc, deleteDoc, updateDoc, where } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import './../index.css';
 
 const AdminDashboard = () => {
     // Using local state bound to Firestore instead of Context
     const [complaints, setComplaints] = useState([]);
+    const [usersList, setUsersList] = useState([]);
     const [activeView, setActiveView] = useState('management');
     const [loading, setLoading] = useState(true);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -71,7 +72,24 @@ const AdminDashboard = () => {
             }
         };
 
+        const fetchAllUsers = async () => {
+            try {
+                const q = query(collection(db, "user"), where("role", "==", "student"));
+                const querySnapshot = await getDocs(q);
+                
+                const usersData = [];
+                querySnapshot.forEach((docSnap) => {
+                    usersData.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                
+                setUsersList(usersData);
+            } catch (error) {
+                console.error("Error fetching all users:", error);
+            }
+        };
+
         fetchAllComplaints();
+        fetchAllUsers();
     }, []);
 
     const handleLogout = async () => {
@@ -108,6 +126,18 @@ const AdminDashboard = () => {
         } catch (error) {
             console.error("Error deleting complaint:", error);
             alert("Failed to delete complaint");
+        }
+    };
+
+    const handleDeleteUser = async (id) => {
+        if (!window.confirm("Are you sure you want to permanently delete this user account?")) return;
+
+        try {
+            await deleteDoc(doc(db, "user", id));
+            setUsersList(current => current.filter(u => u.id !== id));
+        } catch (error) {
+            console.error("Error deleting user:", error);
+            alert("Failed to delete user account");
         }
     };
 
@@ -207,7 +237,10 @@ const AdminDashboard = () => {
                         <CheckSquare size={20} /> Complaint Management
                     </a>
                     <a href="#" onClick={(e) => { e.preventDefault(); setActiveView('all'); setIsSidebarOpen(false); }} style={{ padding: '0.875rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem', background: activeView === 'all' ? '#eff6ff' : 'transparent', borderRadius: '0.75rem', color: activeView === 'all' ? '#2563eb' : '#64748b', fontWeight: activeView === 'all' ? '600' : '500', textDecoration: 'none', transition: 'all 0.2s' }}>
-                        <Users size={20} /> All Complaints
+                        <FileText size={20} /> All Complaints
+                    </a>
+                    <a href="#" onClick={(e) => { e.preventDefault(); setActiveView('users'); setIsSidebarOpen(false); }} style={{ padding: '0.875rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem', background: activeView === 'users' ? '#eff6ff' : 'transparent', borderRadius: '0.75rem', color: activeView === 'users' ? '#2563eb' : '#64748b', fontWeight: activeView === 'users' ? '600' : '500', textDecoration: 'none', transition: 'all 0.2s' }}>
+                        <UserCog size={20} /> User Management
                     </a>
                 </nav>
 
@@ -410,6 +443,69 @@ const AdminDashboard = () => {
                                             </div>
                                         )
                                     })}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+
+                {activeView === 'users' && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+                        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 0 0 0' }}>
+                            <div>
+                                <h1 className="desktop-header-title" style={{ fontSize: '2rem', fontWeight: '800', color: '#0f172a', margin: 0, letterSpacing: '-0.025em' }}>User Management</h1>
+                                <p style={{ color: '#64748b', fontSize: '1.05rem', margin: '0.5rem 0 0 0' }}>Manage student accounts and access.</p>
+                            </div>
+                            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                <div onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#ffffff', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
+                                    <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                                        <User size={20} />
+                                    </div>
+                                    <span style={{ fontWeight: '600', color: '#0f172a', fontSize: '0.95rem', userSelect: 'none' }}>{userName || 'Loading...'}</span>
+                                </div>
+                                {showLogout && (
+                                    <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '0.5rem', zIndex: 50 }}>
+                                        <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#ffffff', color: '#dc2626', border: '1px solid #fecaca', padding: '0.75rem 1.5rem', borderRadius: '1rem', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s ease', whiteSpace: 'nowrap', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#fef2f2'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#ffffff'; }}>
+                                            <LogOut size={18} /> Logout
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </header>
+
+                        <div style={{ padding: '2rem', borderRadius: '1rem', background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                                <h2 style={{ fontSize: '1.5rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Registered Students</h2>
+                                <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600', padding: '0.4rem 1rem', background: '#f8fafc', borderRadius: '2rem', border: '1px solid #e2e8f0' }}>Total: {usersList.length} users</span>
+                            </div>
+
+                            {usersList.length === 0 ? (
+                                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', minHeight: '300px' }}>
+                                    <Users size={72} style={{ opacity: 0.5, marginBottom: '1.5rem', color: '#cbd5e1' }} />
+                                    <p style={{ fontSize: '1.25rem', fontWeight: '500' }}>No users found.</p>
+                                </div>
+                            ) : (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                    {usersList.map(user => (
+                                        <div key={user.id} className="list-item-mobile" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', background: '#ffffff', borderRadius: '1rem', border: '1px solid #e2e8f0', transition: 'all 0.2s ease', boxShadow: '0 1px 3px 0 rgba(0,0,0,0.05)' }} onMouseOver={(e) => { e.currentTarget.style.borderColor = '#cbd5e1'; e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0,0,0,0.05)'; }} onMouseOut={(e) => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0,0,0,0.05)'; }}>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.4rem' }}>
+                                                    <h3 style={{ fontSize: '1.15rem', fontWeight: '700', color: '#0f172a', margin: 0 }}>{user.name}</h3>
+                                                    <span style={{ fontSize: '0.75rem', color: '#64748b', padding: '0.2rem 0.6rem', background: '#f1f5f9', borderRadius: '1rem', fontWeight: '600' }}>ID: {user.id}</span>
+                                                </div>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.9rem', color: '#64748b', fontWeight: '500' }}>
+                                                    <span>{user.email}</span>
+                                                    <span>•</span>
+                                                    <span style={{ textTransform: 'capitalize' }}>{user.role}</span>
+                                                </div>
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                                <button onClick={() => handleDeleteUser(user.id)} style={{ background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', padding: '0.5rem 1rem', borderRadius: '0.75rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '600', transition: 'all 0.2s' }} title="Delete Account" onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#fee2e2'} onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fef2f2'}>
+                                                    <Trash2 size={16} /> Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             )}
                         </div>
