@@ -17,7 +17,7 @@ const Introduction = () => {
             <nav style={{ padding: '1.5rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#0f172a' }}>
                     <ShieldCheck size={32} style={{ color: '#3b82f6' }} />
-                    <span style={{ fontSize: '1.5rem', fontWeight: '800', letterSpacing: '-0.025em' }}>ResolveIt</span>
+                    <span style={{ fontSize: '1.5rem', fontWeight: '800', letterSpacing: '-0.025em' }}>ResolveNow</span>
                 </div>
 
                 {/* Desktop Menu */}
@@ -234,7 +234,7 @@ const Introduction = () => {
                     </div>
                 </div>
 
-                {/* Why Use ResolveIt Section (Features) */}
+                {/* Why Use ResolveNow Section (Features) */}
                 <div style={{
                     marginTop: '6rem',
                     width: '100%',
@@ -251,7 +251,7 @@ const Introduction = () => {
                         textAlign: 'center',
                         letterSpacing: '-0.025em'
                     }}>
-                        Why Use <span style={{ color: '#2563eb' }}>ResolveIt?</span>
+                        Why Use <span style={{ color: '#2563eb' }}>ResolveNow?</span>
                     </h2>
                     <p style={{
                         fontSize: '1.15rem',
@@ -316,7 +316,7 @@ const Introduction = () => {
                         textAlign: 'center',
                         letterSpacing: '-0.025em'
                     }}>
-                        How <span style={{ color: '#2563eb' }}>ResolveIt</span> Works
+                        How <span style={{ color: '#2563eb' }}>ResolveNow</span> Works
                     </h2>
 
                     <div style={{
@@ -392,7 +392,7 @@ const Introduction = () => {
                     <div style={{ flex: '1 1 250px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#ffffff', marginBottom: '1rem' }}>
                             <ShieldCheck size={28} style={{ color: '#3b82f6' }} />
-                            <span style={{ fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.025em' }}>ResolveIt</span>
+                            <span style={{ fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.025em' }}>ResolveNow</span>
                         </div>
                         <p style={{ lineHeight: '1.6', fontSize: '0.95rem' }}>
                             Making campus life better, one resolved issue at a time. Empowering students and administrators since 2026.
@@ -423,7 +423,7 @@ const Introduction = () => {
                     gap: '1rem',
                     fontSize: '0.875rem'
                 }}>
-                    <p>&copy; {new Date().getFullYear()} ResolveIt. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} ResolveNow. All rights reserved.</p>
                 </div>
             </footer>
         </div>

@@ -24,7 +24,7 @@ const CookiePolicy = () => {
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#0f172a' }}>
                     <ShieldCheck size={28} style={{ color: '#3b82f6' }} />
-                    <span style={{ fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.025em' }}>ResolveIt</span>
+                    <span style={{ fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.025em' }}>ResolveNow</span>
                 </div>
                 <Link to="/" style={{
                     display: 'flex',

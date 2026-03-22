@@ -24,7 +24,7 @@ const PrivacyPolicy = () => {
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#0f172a' }}>
                     <ShieldCheck size={28} style={{ color: '#3b82f6' }} />
-                    <span style={{ fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.025em' }}>ResolveIt</span>
+                    <span style={{ fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.025em' }}>ResolveNow</span>
                 </div>
                 <Link to="/" style={{
                     display: 'flex',
@@ -59,7 +59,7 @@ const PrivacyPolicy = () => {
                 <section style={{ marginBottom: '2.5rem' }}>
                     <h2 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#1e293b', marginBottom: '1rem' }}>1. Introduction</h2>
                     <p style={{ lineHeight: '1.7', marginBottom: '1rem' }}>
-                        Welcome to ResolveIt. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our application and tell you about your privacy rights.
+                        Welcome to ResolveNow. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our application and tell you about your privacy rights.
                     </p>
                 </section>
 
@@ -98,7 +98,7 @@ const PrivacyPolicy = () => {
                 <section style={{ marginBottom: '2.5rem' }}>
                     <h2 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#1e293b', marginBottom: '1rem' }}>5. Contact Us</h2>
                     <p style={{ lineHeight: '1.7', marginBottom: '1rem' }}>
-                        If you have any questions about this privacy policy, please contact us at privacy@resolveit.edu.
+                        If you have any questions about this privacy policy, please contact us at privacy@resolvenow.edu.
                     </p>
                 </section>
             </main>
