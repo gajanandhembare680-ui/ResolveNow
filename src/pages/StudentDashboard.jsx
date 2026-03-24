@@ -255,7 +255,17 @@ const StudentDashboard = () => {
                     </a>
                 </nav>
 
-
+                <div style={{ marginTop: 'auto', paddingTop: '1.5rem', borderTop: '1px solid rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <div className="user-profile-badge" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem', borderRadius: '1rem' }}>
+                        <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                            <User size={20} />
+                        </div>
+                        <span className="user-name-text" style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize: '0.95rem', userSelect: 'none' }}>{userName || 'Loading...'}</span>
+                    </div>
+                    <button onClick={handleLogout} className="link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', color: '#dc2626', border: 'none', padding: '0.5rem', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s ease', width: '100%' }}>
+                        <LogOut size={18} /> Logout
+                    </button>
+                </div>
             </aside>
 
             {/* Main Content */}
@@ -267,23 +277,6 @@ const StudentDashboard = () => {
                     <h1 className="desktop-header-title" style={{ fontSize: '1.875rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
                         {activeView === 'submit' ? 'Submit a New Complaint' : 'My Complaints Overview'}
                     </h1>
-
-                    {/* User Profile & Logout */}
-                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                        <div className="user-profile-badge" onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'rgba(255, 255, 255, 0.6)', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid rgba(255,255,255,0.8)' }}>
-                            <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-                                <User size={20} />
-                            </div>
-                            <span className="user-name-text" style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize: '0.95rem', userSelect: 'none' }}>{userName || 'Loading...'}</span>
-                        </div>
-                        {showLogout && (
-                            <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '0.5rem', zIndex: 50 }}>
-                                <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#ffffff', color: '#dc2626', border: '1px solid #fecaca', padding: '0.75rem 1.5rem', borderRadius: '1rem', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s ease', whiteSpace: 'nowrap', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#fef2f2'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#ffffff'; }}>
-                                    <LogOut size={18} /> Logout
-                                </button>
-                            </div>
-                        )}
-                    </div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>

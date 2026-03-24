@@ -252,6 +252,17 @@ const AdminDashboard = () => {
                     </a>
                 </nav>
 
+                <div style={{ marginTop: 'auto', paddingTop: '1.5rem', borderTop: '1px solid #f1f5f9', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <div className="user-profile-badge" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem', borderRadius: '1rem' }}>
+                        <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                            <User size={20} />
+                        </div>
+                        <span className="user-name-text" style={{ fontWeight: '600', color: '#0f172a', fontSize: '0.95rem', userSelect: 'none' }}>{userName || 'Loading...'}</span>
+                    </div>
+                    <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', background: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca', padding: '0.65rem', borderRadius: '0.75rem', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s ease', width: '100%' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#fee2e2'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#fef2f2'; }}>
+                        <LogOut size={18} /> Logout
+                    </button>
+                </div>
             </aside>
 
             <main className="dashboard-main" style={{ flex: 1, padding: '2rem 3rem 2rem 1rem', display: 'flex', flexDirection: 'column', gap: '2rem', overflowY: 'auto' }}>
@@ -261,22 +272,6 @@ const AdminDashboard = () => {
                             <div>
                                 <h1 className="desktop-header-title" style={{ fontSize: '2rem', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.025em' }}>Complaint Management</h1>
                                 <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem' }}>You have <span style={{ fontWeight: '700', color: '#2563eb' }}>{actionComplaints.length}</span> complaints requiring action ({pendingComplaints.length} pending, {acceptedComplaints.length} in progress).</p>
-                            </div>
-                            {/* User Profile & Logout */}
-                            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                                <div className="user-profile-badge" onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#ffffff', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
-                                    <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-                                        <User size={20} />
-                                    </div>
-                                    <span className="user-name-text" style={{ fontWeight: '600', color: '#0f172a', fontSize: '0.95rem', userSelect: 'none' }}>{userName || 'Loading...'}</span>
-                                </div>
-                                {showLogout && (
-                                    <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '0.5rem', zIndex: 50 }}>
-                                        <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#ffffff', color: '#dc2626', border: '1px solid #fecaca', padding: '0.75rem 1.5rem', borderRadius: '1rem', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s ease', whiteSpace: 'nowrap', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#fef2f2'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#ffffff'; }}>
-                                            <LogOut size={18} /> Logout
-                                        </button>
-                                    </div>
-                                )}
                             </div>
                         </header>
                         {actionComplaints.length === 0 ? (
@@ -351,22 +346,6 @@ const AdminDashboard = () => {
                             <div>
                                 <h1 className="desktop-header-title" style={{ fontSize: '2rem', fontWeight: '800', color: '#0f172a', margin: 0, letterSpacing: '-0.025em' }}>All Complaints Overview</h1>
                                 <p style={{ color: '#64748b', fontSize: '1.05rem', margin: '0.5rem 0 0 0' }}>Comprehensive view of all submitted complaints.</p>
-                            </div>
-                            {/* User Profile & Logout */}
-                            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                                <div className="user-profile-badge" onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#ffffff', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
-                                    <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-                                        <User size={20} />
-                                    </div>
-                                    <span className="user-name-text" style={{ fontWeight: '600', color: '#0f172a', fontSize: '0.95rem', userSelect: 'none' }}>{userName || 'Loading...'}</span>
-                                </div>
-                                {showLogout && (
-                                    <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '0.5rem', zIndex: 50 }}>
-                                        <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#ffffff', color: '#dc2626', border: '1px solid #fecaca', padding: '0.75rem 1.5rem', borderRadius: '1rem', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s ease', whiteSpace: 'nowrap', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#fef2f2'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#ffffff'; }}>
-                                            <LogOut size={18} /> Logout
-                                        </button>
-                                    </div>
-                                )}
                             </div>
                         </header>
 
@@ -481,21 +460,6 @@ const AdminDashboard = () => {
                             <div>
                                 <h1 className="desktop-header-title" style={{ fontSize: '2rem', fontWeight: '800', color: '#0f172a', margin: 0, letterSpacing: '-0.025em' }}>User Management</h1>
                                 <p style={{ color: '#64748b', fontSize: '1.05rem', margin: '0.5rem 0 0 0' }}>Manage student accounts and access.</p>
-                            </div>
-                            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                                <div className="user-profile-badge" onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#ffffff', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
-                                    <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-                                        <User size={20} />
-                                    </div>
-                                    <span className="user-name-text" style={{ fontWeight: '600', color: '#0f172a', fontSize: '0.95rem', userSelect: 'none' }}>{userName || 'Loading...'}</span>
-                                </div>
-                                {showLogout && (
-                                    <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '0.5rem', zIndex: 50 }}>
-                                        <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#ffffff', color: '#dc2626', border: '1px solid #fecaca', padding: '0.75rem 1.5rem', borderRadius: '1rem', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s ease', whiteSpace: 'nowrap', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#fef2f2'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#ffffff'; }}>
-                                            <LogOut size={18} /> Logout
-                                        </button>
-                                    </div>
-                                )}
                             </div>
                         </header>
 
