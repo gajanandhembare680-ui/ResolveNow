@@ -264,7 +264,7 @@ const AdminDashboard = () => {
                             </div>
                             {/* User Profile & Logout */}
                             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                                <div onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#ffffff', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
+                                <div className="user-profile-badge" onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#ffffff', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
                                     <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
                                         <User size={20} />
                                     </div>
@@ -354,7 +354,7 @@ const AdminDashboard = () => {
                             </div>
                             {/* User Profile & Logout */}
                             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                                <div onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#ffffff', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
+                                <div className="user-profile-badge" onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#ffffff', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
                                     <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
                                         <User size={20} />
                                     </div>
@@ -483,7 +483,7 @@ const AdminDashboard = () => {
                                 <p style={{ color: '#64748b', fontSize: '1.05rem', margin: '0.5rem 0 0 0' }}>Manage student accounts and access.</p>
                             </div>
                             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                                <div onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#ffffff', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
+                                <div className="user-profile-badge" onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#ffffff', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
                                     <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
                                         <User size={20} />
                                     </div>

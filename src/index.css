@@ -298,15 +298,30 @@ body {
 }
 
 /* --- Responsive Dashboard Headers --- */
-@media (max-width: 768px) {
-  .dashboard-header {
-    flex-wrap: wrap !important;
-    gap: 1.5rem !important;
-  }
+.dashboard-header {
+  flex-wrap: nowrap !important;
+  gap: 1rem;
+}
+
+.user-profile-badge {
+  flex-shrink: 0 !important;
+}
+
+.user-profile-badge > div {
+  flex-shrink: 0 !important;
+}
+
+.user-name-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 @media (max-width: 480px) {
   .user-name-text {
-    display: none !important;
+    max-width: 80px;
   }
 }

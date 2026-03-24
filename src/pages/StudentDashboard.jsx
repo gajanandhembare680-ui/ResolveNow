@@ -270,7 +270,7 @@ const StudentDashboard = () => {
 
                     {/* User Profile & Logout */}
                     <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                        <div onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'rgba(255, 255, 255, 0.6)', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid rgba(255,255,255,0.8)' }}>
+                        <div className="user-profile-badge" onClick={() => setShowLogout(!showLogout)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'rgba(255, 255, 255, 0.6)', padding: '0.5rem 1rem', borderRadius: '2rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid rgba(255,255,255,0.8)' }}>
                             <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
                                 <User size={20} />
                             </div>
