@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Mail, Lock, UserPlus, Shield } from 'lucide-react';
+import { User, Mail, Lock, UserPlus, Shield, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { setDoc, doc, collection, query, where, getDocs } from "firebase/firestore";
@@ -16,6 +16,8 @@ const Signup = ({ role = "student" }) => {
     const [adminCode, setAdminCode] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -157,25 +159,69 @@ const Signup = ({ role = "student" }) => {
                     <div style={{ position: 'relative' }}>
                         <Lock className="input-icon" size={20} />
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="Password"
                             className="input-field"
+                            style={{ paddingRight: '2.5rem' }}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            aria-label={showPassword ? "Hide password" : "Show password"}
+                            style={{
+                                position: 'absolute',
+                                right: '0.75rem',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                color: 'var(--text-secondary)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: 0
+                            }}
+                        >
+                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
                     </div>
 
                     <div style={{ position: 'relative' }}>
                         <Lock className="input-icon" size={20} />
                         <input
-                            type="password"
+                            type={showConfirmPassword ? "text" : "password"}
                             placeholder="Confirm Password"
                             className="input-field"
+                            style={{ paddingRight: '2.5rem' }}
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             required
                         />
+                        <button
+                            type="button"
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                            style={{
+                                position: 'absolute',
+                                right: '0.75rem',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                color: 'var(--text-secondary)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: 0
+                            }}
+                        >
+                            {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
                     </div>
 
                     <button type="submit" disabled={loading} className={isAdmin ? '' : 'btn-primary'} style={isAdmin ? adminBtnStyle : { display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}>

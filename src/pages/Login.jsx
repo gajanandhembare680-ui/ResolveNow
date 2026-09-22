@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Lock, LogIn, Shield, User } from 'lucide-react';
+import { Mail, Lock, LogIn, Shield, User, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, db } from "../firebase";
@@ -14,6 +14,7 @@ const Login = ({ role = "student" }) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -117,13 +118,35 @@ const Login = ({ role = "student" }) => {
                     <div style={{ position: 'relative' }}>
                         <Lock className="input-icon" size={20} />
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="Password"
                             className="input-field"
+                            style={{ paddingRight: '2.5rem' }}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            aria-label={showPassword ? "Hide password" : "Show password"}
+                            style={{
+                                position: 'absolute',
+                                right: '0.75rem',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                color: 'var(--text-secondary)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: 0
+                            }}
+                        >
+                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.875rem' }}>

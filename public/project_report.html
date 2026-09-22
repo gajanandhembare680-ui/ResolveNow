@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Project Thesis - ResolveNow Campus Complaint Management System</title>
+    <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Reset & Variable Definitions */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: rgba(37, 99, 235, 0.06);
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --success: #16a34a;
+            --success-bg: #dcfce7;
+            --warning: #ca8a04;
+            --warning-bg: #fef9c3;
+            --error: #dc2626;
+            --error-bg: #fee2e2;
+            
+            --font-sans: 'Inter', system-ui, sans-serif;
+            --font-serif: 'Lora', Georgia, serif;
+            --font-mono: 'Fira Code', monospace;
+            
+            --page-width: 850px;
+            --shadow-premium: 0 25px 50px -12px rgba(0,0,0,0.08), 0 10px 15px -3px rgba(0,0,0,0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--slate-100);
+            color: var(--slate-900);
+            font-family: var(--font-sans);
+            line-height: 1.7;
+            padding: 3rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Report Container - Simulates A4 sheets on screen */
+        .report-wrapper {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: var(--page-width);
+            padding: 5.5rem 6rem;
+            box-shadow: var(--shadow-premium);
+            border-radius: 16px;
+            position: relative;
+        }
+
+        /* Floating Sidebar / Menu for Screen Mode */
+        .nav-panel {
+            position: fixed;
+            left: 2rem;
+            top: 2rem;
+            width: 270px;
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+            z-index: 10;
+            border: 1px solid var(--slate-200);
+        }
+
+        .nav-panel h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--slate-800);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .nav-panel ul {
+            list-style: none;
+        }
+
+        .nav-panel li {
+            margin-bottom: 0.4rem;
+        }
+
+        .nav-panel a {
+            color: var(--slate-700);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: block;
+            padding: 0.3rem 0.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .nav-panel a:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+            padding-left: 0.75rem;
+        }
+
+        .nav-panel li.chapter-li {
+            margin-top: 0.75rem;
+        }
+
+        .nav-panel li.chapter-li > a {
+            font-weight: 700;
+            color: var(--slate-900);
+        }
+
+        /* Floating Utility Buttons */
+        .utility-buttons {
+            position: fixed;
+            right: 2rem;
+            top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .btn-circle {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37,99,235,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+        }
+
+        .btn-circle:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.4);
+        }
+
+        .btn-circle svg {
+            width: 26px;
+            height: 26px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.2;
+        }
+
+        /* Typography & Styles for Academic Report */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-sans);
+            color: var(--slate-900);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.6rem;
+            margin-top: 4.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            border-bottom: 1px solid var(--slate-200);
+            padding-bottom: 0.4rem;
+            margin-top: 2.2rem;
+            color: var(--slate-800);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            color: var(--slate-800);
+            margin-top: 1.8rem;
+        }
+
+        p, li {
+            font-family: var(--font-serif);
+            font-size: 1.08rem;
+            color: var(--slate-800);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        li {
+            margin-bottom: 0.6rem;
+            text-align: left;
+        }
+
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2.5rem;
+        }
+
+        /* Page Breaks and Layout Rules (Force A4 Print Layout) */
+        .page-break {
+            page-break-before: always;
+            border-top: 1px dashed var(--slate-300);
+            margin-top: 4rem;
+            padding-top: 4rem;
+        }
+
+        @media screen {
+            .page-break {
+                position: relative;
+            }
+            .page-break::before {
+                content: "--- PAGE BREAK (PRINT PREVIEW) ---";
+                position: absolute;
+                top: -12px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--slate-100);
+                color: var(--slate-700);
+                font-family: var(--font-sans);
+                font-size: 0.7rem;
+                font-weight: 600;
+                padding: 2px 10px;
+                border-radius: 4px;
+                border: 1px solid var(--slate-200);
+            }
+        }
+
+        /* Cover Page Styling */
+        .cover-page {
+            height: 95vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            padding: 3rem 0;
+            page-break-after: always;
+        }
+
+        .cover-logo-section {
+            margin-top: 1.5rem;
+        }
+
+        .cover-title {
+            margin-top: 3rem;
+            max-width: 90%;
+        }
+
+        .cover-title h1 {
+            border-bottom: none;
+            font-size: 3rem;
+            font-weight: 850;
+            color: var(--slate-900);
+            line-height: 1.25;
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+        }
+
+        .cover-title p.subtitle {
+            font-size: 1.35rem;
+            font-style: italic;
+            color: var(--slate-700);
+            font-family: var(--font-sans);
+            margin-bottom: 3.5rem;
+            line-height: 1.5;
+        }
+
+        .cover-academic-label {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--slate-700);
+            max-width: 650px;
+            line-height: 1.6;
+            font-family: var(--font-sans);
+            margin-bottom: 4rem;
+        }
+
+        .cover-details {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            text-align: left;
+            border-top: 3px double var(--slate-300);
+            padding-top: 2.5rem;
+            margin-top: auto;
+        }
+
+        .cover-details h4 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            color: var(--slate-950);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.6rem;
+        }
+
+        .cover-details p {
+            font-family: var(--font-sans);
+            font-size: 0.98rem;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Document Signatures / Declarations styling */
+        .academic-cert {
+            padding: 2.5rem 0;
+            page-break-after: always;
+        }
+
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 7rem;
+        }
+
+        .sig-block {
+            text-align: center;
+            width: 260px;
+        }
+
+        .sig-block hr {
+            border: 0;
+            border-top: 1px solid var(--slate-800);
+            margin-bottom: 0.6rem;
+        }
+
+        .sig-block p {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* Abstract Box styling */
+        .abstract-box {
+            background-color: var(--slate-50);
+            border-left: 5px solid var(--primary);
+            padding: 2.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 2.5rem 0;
+        }
+
+        .abstract-box h2 {
+            border-bottom: none;
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        /* Code Block Styling */
+        pre {
+            background-color: var(--slate-900);
+            border-radius: 10px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin-bottom: 1.75rem;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.15);
+            border: 1px solid var(--slate-800);
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            color: var(--slate-100);
+        }
+
+        /* Inline Code */
+        p code, li code {
+            background-color: var(--slate-100);
+            color: #c2185b;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: var(--font-mono);
+            border: 1px solid var(--slate-200);
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+        }
+
+        th, td {
+            padding: 0.85rem 1.1rem;
+            border: 1px solid var(--slate-200);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: var(--slate-100);
+            color: var(--slate-900);
+            font-weight: 700;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--slate-50);
+        }
+
+        /* Alerts */
+        .info-alert {
+            background-color: var(--primary-light);
+            border-left: 5px solid var(--primary);
+            padding: 1.25rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1.75rem;
+        }
+
+        .info-alert p {
+            margin: 0;
+            font-family: var(--font-sans);
+            font-size: 0.98rem;
+            color: var(--slate-800);
+            text-align: left;
+        }
+
+        /* Architecture Block */
+        .visual-diagram-container {
+            margin: 2rem 0;
+            text-align: center;
+            border: 1px solid var(--slate-200);
+            padding: 2rem;
+            border-radius: 12px;
+            background: var(--slate-50);
+        }
+
+        .visual-diagram-container h5 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--slate-700);
+            margin-bottom: 1.5rem;
+        }
+
+        .ascii-diagram {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            white-space: pre;
+            background-color: var(--slate-900);
+            color: #38bdf8;
+            padding: 1.75rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+            text-align: left;
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Table of Contents Layout */
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.85rem;
+            font-family: var(--font-sans);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .toc-list li a {
+            color: var(--slate-900);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .toc-list li a:hover {
+            color: var(--primary);
+        }
+
+        .toc-dots {
+            flex-grow: 1;
+            border-bottom: 2px dotted var(--slate-300);
+            margin: 0 12px;
+            position: relative;
+            top: -5px;
+        }
+
+        .toc-page {
+            font-weight: 700;
+            color: var(--slate-800);
+            font-size: 1.05rem;
+        }
+
+        .toc-sub {
+            padding-left: 2rem;
+            margin-top: 0.4rem;
+            margin-bottom: 0.4rem;
+            list-style: none;
+            width: 100%;
+        }
+
+        .toc-sub li {
+            font-size: 0.95rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .toc-sub li a {
+            font-weight: 400;
+            color: var(--slate-700);
+        }
+
+        /* Flow diagram blocks */
+        .flow-step-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .flow-step {
+            background: #ffffff;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            padding: 1.25rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            text-align: center;
+        }
+
+        .flow-step .step-num {
+            background: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .flow-step h5 {
+            font-size: 0.95rem;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .flow-step p {
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            color: var(--slate-700);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Comparison tables */
+        .comparison-table th {
+            background-color: var(--slate-800);
+            color: white;
+        }
+
+        /* SVG UML diagrams */
+        .svg-container {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        /* Print Specific Stylesheet */
+        @media print {
+            body {
+                background-color: #ffffff;
+                color: #000000;
+                padding: 0;
+                margin: 0;
+            }
+
+            .report-wrapper {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+                border-radius: 0;
+            }
+
+            .nav-panel, .utility-buttons {
+                display: none !important;
+            }
+
+            .page-break {
+                page-break-before: always !important;
+                border-top: none !important;
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
+
+            pre, code, .ascii-diagram {
+                background-color: #f8fafc !important;
+                color: #000000 !important;
+                border: 1px solid #cbd5e1;
+                box-shadow: none;
+            }
+
+            p code, li code {
+                background-color: #f8fafc !important;
+                color: #000000 !important;
+                border: 1px solid #cbd5e1;
+            }
+
+            .info-alert {
+                background-color: #f8fafc !important;
+                border-color: #000000 !important;
+            }
+
+            a {
+                color: #000000 !important;
+                text-decoration: underline;
+            }
+
+            table {
+                box-shadow: none;
+            }
+
+            th {
+                background-color: #e2e8f0 !important;
+                color: #000000 !important;
+            }
+        }
+
+        /* Small screen responsive adjustments */
+        @media (max-width: 1250px) {
+            .nav-panel {
+                display: none; /* Hide floating nav on medium/small viewports */
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1.5rem 0.5rem;
+            }
+
+            .report-wrapper {
+                padding: 2.5rem 2rem;
+            }
+
+            .cover-title h1 {
+                font-size: 2.2rem;
+            }
+
+            .cover-details {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .signature-section {
+                flex-direction: column;
+                gap: 3.5rem;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Navigation panel (Screen mode only) -->
+    <div class="nav-panel">
+        <h4>Thesis Structure</h4>
+        <ul>
+            <li><a href="#cover">Title Cover Page</a></li>
+            <li><a href="#certificate">Approval Certificate</a></li>
+            <li><a href="#declaration">Candidate Declaration</a></li>
+            <li><a href="#acknowledgements">Acknowledgements</a></li>
+            <li><a href="#abstract">Abstract Summary</a></li>
+            <li><a href="#toc">Table of Contents</a></li>
+            
+            <li class="chapter-li"><a href="#chapter1">Ch 1: Introduction</a></li>
+            <li><a href="#1-1">1.1 Project Overview</a></li>
+            <li><a href="#1-2">1.2 Project Scope</a></li>
+            <li><a href="#1-3">1.3 Motivation</a></li>
+            <li><a href="#1-4">1.4 Problem Statement</a></li>
+            <li><a href="#1-5">1.5 Objectives & KPIs</a></li>
+            
+            <li class="chapter-li"><a href="#chapter2">Ch 2: Literature Survey</a></li>
+            <li><a href="#2-1">2.1 Study of Legacy Systems</a></li>
+            <li><a href="#2-2">2.2 Feasibility Analysis</a></li>
+            <li><a href="#2-3">2.3 Tech Stack Selection</a></li>
+            <li><a href="#2-4">2.4 Paradigm Study: React & SPA</a></li>
+            <li><a href="#2-5">2.5 Paradigm Study: Firebase</a></li>
+            
+            <li class="chapter-li"><a href="#chapter3">Ch 3: SDLC Methodology</a></li>
+            <li><a href="#3-1">3.1 SDLC Process Model</a></li>
+            <li><a href="#3-2">3.2 Agile Framework</a></li>
+            <li><a href="#3-3">3.3 User Stories & Backlog</a></li>
+            <li><a href="#3-4">3.4 Work Breakdown Structure</a></li>
+            
+            <li class="chapter-li"><a href="#chapter4">Ch 4: System Specifications</a></li>
+            <li><a href="#4-1">4.1 Hardware Specs</a></li>
+            <li><a href="#4-2">4.2 Software Specs</a></li>
+            <li><a href="#4-3">4.3 Functional Breakdown</a></li>
+            <li><a href="#4-4">4.4 Non-Functional Specs</a></li>
+            
+            <li class="chapter-li"><a href="#chapter5">Ch 5: System Design</a></li>
+            <li><a href="#5-1">5.1 Block Architecture</a></li>
+            <li><a href="#5-2">5.2 Database Collection Schema</a></li>
+            <li><a href="#5-3">5.3 Data Flow Diagrams</a></li>
+            <li><a href="#5-4">5.4 UML Diagrams</a></li>
+            <li><a href="#5-5">5.5 User Interface Mockups</a></li>
+            
+            <li class="chapter-li"><a href="#chapter6">Ch 6: Implementation Details</a></li>
+            <li><a href="#6-1">6.1 Codebase Architecture</a></li>
+            <li><a href="#6-2">6.2 Firebase Setup Code</a></li>
+            <li><a href="#6-3">6.3 Protected Route Logic</a></li>
+            <li><a href="#6-4">6.4 Student Component Details</a></li>
+            <li><a href="#6-5">6.5 Administrative Logic</a></li>
+            
+            <li class="chapter-li"><a href="#chapter7">Ch 7: Testing & QA</a></li>
+            <li><a href="#7-1">7.1 QA Methodology</a></li>
+            <li><a href="#7-2">7.2 Master Test Suite Table</a></li>
+            <li><a href="#7-3">7.3 Security Audit & Rules</a></li>
+            
+            <li class="chapter-li"><a href="#chapter8">Ch 8: Installation & Guide</a></li>
+            <li><a href="#8-1">8.1 Developer Setup Guide</a></li>
+            <li><a href="#8-2">8.2 Student User Manual</a></li>
+            <li><a href="#8-3">8.3 Administrator User Manual</a></li>
+            
+            <li class="chapter-li"><a href="#chapter9">Ch 9: Conclusion & Scope</a></li>
+            <li><a href="#9-1">9.1 Achievements</a></li>
+            <li><a href="#9-2">9.2 Technical Limitations</a></li>
+            <li><a href="#9-3">9.3 Future Roadmap</a></li>
+            
+            <li class="chapter-li"><a href="#references">References & Sources</a></li>
+        </ul>
+    </div>
+
+    <!-- Utility Buttons (Screen mode only) -->
+    <div class="utility-buttons">
+        <button class="btn-circle" onclick="window.print()" title="Print / Save PDF">
+            <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2m-12-3h12v8H6Z"/></svg>
+        </button>
+        <button class="btn-circle" onclick="window.scrollTo(0,0)" title="Back to Top">
+            <svg viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg>
+        </button>
+    </div>
+
+    <!-- Main Report Body -->
+    <div class="report-wrapper" id="cover">
+        
+        <!-- COVER PAGE -->
+        <div class="cover-page">
+            <div class="cover-logo-section">
+                <!-- Academic Seal Placeholder SVG -->
+                <svg width="100" height="100" viewBox="0 0 100 100" style="color: var(--primary);">
+                    <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="none" stroke="currentColor" stroke-width="4"/>
+                    <circle cx="50" cy="50" r="25" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <path d="M40,45 L50,35 L60,45 M50,35 L50,65" fill="none" stroke="currentColor" stroke-width="3"/>
+                </svg>
+            </div>
+            
+            <div class="cover-title">
+                <h1>RESOLVENOW: A CLOUD-BASED CAMPUS COMPLAINT MANAGEMENT SYSTEM</h1>
+                <p class="subtitle">An Engineering Project Report on Design, Implementation, and Deployment of a Real-Time Role-Based Complaint Redressal Platform</p>
+            </div>
+            
+            <div class="cover-academic-label">
+                Submitted in partial fulfillment of the requirements for the degree of<br>
+                <strong>BACHELOR OF TECHNOLOGY / COMPUTER APPLICATIONS</strong><br>
+                in<br>
+                <strong>COMPUTER SCIENCE & ENGINEERING / INFORMATION TECHNOLOGY</strong>
+            </div>
+            
+            <div class="cover-details">
+                <div>
+                    <h4>Submitted By:</h4>
+                    <p><strong>[Your Name]</strong></p>
+                    <p>Roll Number: [Your Roll Number]</p>
+                    <p>Department of Computer Science & Eng.</p>
+                </div>
+                <div>
+                    <h4>Supervised By:</h4>
+                    <p><strong>[Supervisor Name]</strong></p>
+                    <p>Assistant Professor, Dept of CSE</p>
+                    <p>[Your Institution Name]</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CERTIFICATE OF APPROVAL -->
+        <div id="certificate" class="academic-cert page-break">
+            <h1>Certificate of Approval</h1>
+            <p style="margin-top: 2rem;">This is to certify that the project report entitled <strong>"ResolveNow: A Cloud-Based Campus Complaint Management System"</strong> is a record of bonafide work carried out by <strong>[Your Name]</strong> (Roll No: <strong>[Your Roll Number]</strong>) in partial fulfillment of the requirements for the award of the degree of Bachelor of Technology in Computer Science & Engineering at <strong>[Your Institution Name]</strong> during the academic term 2025 - 2026.</p>
+            <p>This work has been performed under my supervision and guidance. The contents of this report, in full or in part, have not been submitted to any other University or Institute for the award of any degree or diploma.</p>
+            
+            <div class="signature-section">
+                <div class="sig-block">
+                    <hr>
+                    <p><strong>[Supervisor Name]</strong></p>
+                    <p>Project Guide</p>
+                    <p>Department of Computer Science & Eng.</p>
+                </div>
+                <div class="sig-block">
+                    <hr>
+                    <p><strong>[Head of Department Name]</strong></p>
+                    <p>Head of Department</p>
+                    <p>Department of Computer Science & Eng.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- DECLARATION -->
+        <div id="declaration" class="academic-cert page-break">
+            <h1>Candidate Declaration</h1>
+            <p style="margin-top: 2rem;">I, <strong>[Your Name]</strong>, student of Bachelor of Technology in Computer Science & Engineering, roll number <strong>[Your Roll Number]</strong>, at <strong>[Your Institution Name]</strong>, hereby declare that the project work presented in this report entitled <strong>"ResolveNow: A Cloud-Based Campus Complaint Management System"</strong> is an authentic record of my own work carried out under the supervision of <strong>[Supervisor Name]</strong>.</p>
+            <p>Any library materials, software libraries, references, or text segments adapted from standard resources have been duly acknowledged and documented in this report. No part of this report has previously been submitted for the award of any other academic certificate or degree.</p>
+            
+            <div style="margin-top: 5rem; display: flex; justify-content: space-between; align-items: flex-end;">
+                <div>
+                    <p style="margin: 0; font-family: var(--font-sans);"><strong>Date:</strong> [Current Date]</p>
+                    <p style="margin: 0; font-family: var(--font-sans);"><strong>Place:</strong> [Your City]</p>
+                </div>
+                <div class="sig-block">
+                    <hr>
+                    <p><strong>[Your Name]</strong></p>
+                    <p>Candidate Signatory</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACKNOWLEDGEMENTS -->
+        <div id="acknowledgements" class="academic-cert page-break">
+            <h1>Acknowledgements</h1>
+            <p style="margin-top: 2rem;">It is my distinct privilege to express my deepest sense of gratitude, respect, and appreciation to my project mentor, <strong>[Supervisor Name]</strong>, Department of Computer Science & Engineering, for their invaluable advice, continuous support, and motivating discussions that kept this project on course.</p>
+            <p>I would also like to thank <strong>[Head of Department Name]</strong>, Head of the Department, for extending the resources and facilities of the departmental computer networks lab to configure and deploy our cloud instances.</p>
+            <p>Finally, I must acknowledge the support of my family members and peer group who actively tested the user interfaces in various simulated workloads. Their feedback directly shaped the responsive navigation layouts and the validation forms integrated within the login sections.</p>
+        </div>
+
+        <!-- ABSTRACT -->
+        <div id="abstract" class="abstract-box page-break">
+            <h2>Abstract Summary</h2>
+            <p>Institutions of higher learning regularly face complex maintenance, logistical, and academic issues that impact student learning environments. In the absence of structured tracking systems, campus complaints—ranging from library Wi-Fi outages to hostel room maintenance—are submitted via physical registers, paper chits, or unmanaged email lists. These traditional methods lack transparency, fail to offer status updates, suffer from data loss, and create bottlenecks for administrative teams tasked with resolution.</p>
+            <p>To overcome these systemic issues, this thesis presents the design, implementation, and deployment of <strong>ResolveNow</strong>, an academic **Campus Complaint Management System (CMS)**. The system is engineered on a modern single-page application (SPA) model using <strong>React.js (v19)</strong> and <strong>Vite</strong> for client-side rendering. The user interface leverages custom **Glassmorphism CSS** styles to create a polished, responsive, and accessible experience on both desktop and mobile viewports, using **Lucide Icons** for intuitive visual cues. The backend relies on a serverless architecture powered by **Google Firebase**, specifically integrating **Firebase Authentication** for secure account control and **Cloud Firestore** for NoSQL data storage and real-time document synchronization.</p>
+            <p>ResolveNow implements **Role-Based Access Control (RBAC)** to separate student and administrator views. Students can register accounts, sign in, lodge complaints categorized by department (Wi-Fi, Infrastructure, Hostel, Academic), track the status of their issues (Pending, Accepted, Resolved, Rejected, Unresolved) in real time, and delete their own logged reports. Administrators are equipped with a comprehensive system panel featuring server-side keyword searching, state filtering, timestamp sorting, single-click status updates, and a student database tracker. The application has been optimized, tested, and deployed on cloud instances (Vercel). The resulting system simplifies complaint management, reduces resolution times, and ensures a transparent feedback loop for student concerns.</p>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- TABLE OF CONTENTS -->
+        <div id="toc" class="page-break">
+            <h1>Table of Contents</h1>
+            <ul class="toc-list" style="margin-top: 2rem;">
+                <li>
+                    <a href="#certificate">1. Certificate of Approval</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">ii</span>
+                </li>
+                <li>
+                    <a href="#declaration">2. Candidate Declaration</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">iii</span>
+                </li>
+                <li>
+                    <a href="#acknowledgements">3. Acknowledgements</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">iv</span>
+                </li>
+                <li>
+                    <a href="#abstract">4. Abstract Summary</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">v</span>
+                </li>
+                <li>
+                    <a href="#chapter1">5. Chapter 1: Introduction</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">1</span>
+                </li>
+                <li>
+                    <ul class="toc-sub">
+                        <li><a href="#1-1">1.1 Project Overview & Context</a> <span class="toc-dots"></span> <span class="toc-page">1</span></li>
+                        <li><a href="#1-2">1.2 Project Scope & Limitations</a> <span class="toc-dots"></span> <span class="toc-page">1</span></li>
+                        <li><a href="#1-3">1.3 Motivation & Core Philosophy</a> <span class="toc-dots"></span> <span class="toc-page">2</span></li>
+                        <li><a href="#1-4">1.4 Problem Statement of Legacy Systems</a> <span class="toc-dots"></span> <span class="toc-page">2</span></li>
+                        <li><a href="#1-5">1.5 Objectives & Key KPI Targets</a> <span class="toc-dots"></span> <span class="toc-page">3</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#chapter2">6. Chapter 2: Literature Survey</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">5</span>
+                </li>
+                <li>
+                    <ul class="toc-sub">
+                        <li><a href="#2-1">2.1 Analysis of Traditional Complaint Logs</a> <span class="toc-dots"></span> <span class="toc-page">5</span></li>
+                        <li><a href="#2-2">2.2 System Feasibility Analysis</a> <span class="toc-dots"></span> <span class="toc-page">6</span></li>
+                        <li><a href="#2-3">2.3 Technology Stack Evaluation Matrix</a> <span class="toc-dots"></span> <span class="toc-page">6</span></li>
+                        <li><a href="#2-4">2.4 React Single Page Application (SPA) Architectural Paradigm</a> <span class="toc-dots"></span> <span class="toc-page">7</span></li>
+                        <li><a href="#2-5">2.5 NoSQL vs SQL Database Choice</a> <span class="toc-dots"></span> <span class="toc-page">8</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#chapter3">7. Chapter 3: SDLC Methodology</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">10</span>
+                </li>
+                <li>
+                    <ul class="toc-sub">
+                        <li><a href="#3-1">3.1 SDLC Process Model Selection</a> <span class="toc-dots"></span> <span class="toc-page">10</span></li>
+                        <li><a href="#3-2">3.2 Agile Scrum Framework & Sprint Planning</a> <span class="toc-dots"></span> <span class="toc-page">11</span></li>
+                        <li><a href="#3-3">3.3 Agile User Stories & Backlog Grooming</a> <span class="toc-dots"></span> <span class="toc-page">12</span></li>
+                        <li><a href="#3-4">3.4 Work Breakdown Structure (WBS)</a> <span class="toc-dots"></span> <span class="toc-page">13</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#chapter4">8. Chapter 4: System Specifications</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">15</span>
+                </li>
+                <li>
+                    <ul class="toc-sub">
+                        <li><a href="#4-1">4.1 Hardware Environment Specification</a> <span class="toc-dots"></span> <span class="toc-page">15</span></li>
+                        <li><a href="#4-2">4.2 Software Environment Specification</a> <span class="toc-dots"></span> <span class="toc-page">15</span></li>
+                        <li><a href="#4-3">4.3 Functional Requirements Breakdown (Actor-wise)</a> <span class="toc-dots"></span> <span class="toc-page">16</span></li>
+                        <li><a href="#4-4">4.4 Non-Functional Software Quality Requirements</a> <span class="toc-dots"></span> <span class="toc-page">18</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#chapter5">9. Chapter 5: System Design</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">20</span>
+                </li>
+                <li>
+                    <ul class="toc-sub">
+                        <li><a href="#5-1">5.1 Block-Level System Architecture</a> <span class="toc-dots"></span> <span class="toc-page">20</span></li>
+                        <li><a href="#5-2">5.2 Database Entity Schema & Collections</a> <span class="toc-dots"></span> <span class="toc-page">21</span></li>
+                        <li><a href="#5-3">5.3 Data Flow Diagrams (DFD Levels 0, 1, and 2)</a> <span class="toc-dots"></span> <span class="toc-page">23</span></li>
+                        <li><a href="#5-4">5.4 Unified Modeling Language (UML) Use Case & Sequence Diagrams</a> <span class="toc-dots"></span> <span class="toc-page">25</span></li>
+                        <li><a href="#5-5">5.5 User Interface Guidelines & Aesthetics</a> <span class="toc-dots"></span> <span class="toc-page">27</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#chapter6">10. Chapter 6: Implementation Details</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">30</span>
+                </li>
+                <li>
+                    <ul class="toc-sub">
+                        <li><a href="#6-1">6.1 Codebase Project Architecture Tree</a> <span class="toc-dots"></span> <span class="toc-page">30</span></li>
+                        <li><a href="#6-2">6.2 Firebase Database Initialization Code</a> <span class="toc-dots"></span> <span class="toc-page">31</span></li>
+                        <li><a href="#6-3">6.3 Routing & Protected Routes Implementation</a> <span class="toc-dots"></span> <span class="toc-page">32</span></li>
+                        <li><a href="#6-4">6.4 Student Dashboard Logic Walkthrough</a> <span class="toc-dots"></span> <span class="toc-page">34</span></li>
+                        <li><a href="#6-5">6.5 Administrative Logic & Operations Walkthrough</a> <span class="toc-dots"></span> <span class="toc-page">36</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#chapter7">11. Chapter 7: Testing & Quality Assurance</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">38</span>
+                </li>
+                <li>
+                    <ul class="toc-sub">
+                        <li><a href="#7-1">7.1 Quality Assurance Methodologies</a> <span class="toc-dots"></span> <span class="toc-page">38</span></li>
+                        <li><a href="#7-2">7.2 Master Test Suite Table</a> <span class="toc-dots"></span> <span class="toc-page">39</span></li>
+                        <li><a href="#7-3">7.3 Security Audit & Authentication Vulnerability Prevention</a> <span class="toc-dots"></span> <span class="toc-page">42</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#chapter8">12. Chapter 8: Installation & User Manual</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">44</span>
+                </li>
+                <li>
+                    <ul class="toc-sub">
+                        <li><a href="#8-1">8.1 Developer Setup & Local Hosting Installation</a> <span class="toc-dots"></span> <span class="toc-page">44</span></li>
+                        <li><a href="#8-2">8.2 End User Manual: Student Guide</a> <span class="toc-dots"></span> <span class="toc-page">45</span></li>
+                        <li><a href="#8-3">8.3 Administrative Workspace Guide</a> <span class="toc-dots"></span> <span class="toc-page">46</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#chapter9">13. Chapter 9: Conclusion & Future Scope</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">47</span>
+                </li>
+                <li>
+                    <ul class="toc-sub">
+                        <li><a href="#9-1">9.1 Achievements & Project Summary</a> <span class="toc-dots"></span> <span class="toc-page">47</span></li>
+                        <li><a href="#9-2">9.2 Technical Constraints & Limitations</a> <span class="toc-dots"></span> <span class="toc-page">48</span></li>
+                        <li><a href="#9-3">9.3 Future Technical Roadmap</a> <span class="toc-dots"></span> <span class="toc-page">49</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#references">14. References & Bibliography</a>
+                    <span class="toc-dots"></span>
+                    <span class="toc-page">50</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- CHAPTER 1 -->
+        <div id="chapter1" class="page-break">
+            <h1>Chapter 1: Introduction</h1>
+            
+            <h2 id="1-1">1.1 Project Overview & Context</h2>
+            <p><strong>ResolveNow</strong> is an enterprise-grade Campus Complaint Management System (CMS) designed to automate, streamline, and coordinate the processing of college issues. The application operates as a single-page web app (SPA) using React.js (v19) on the client side, connected to a serverless backend on Google Firebase. ResolveNow replaces traditional, manual record-keeping with a secure portal featuring separate student and administrator views. This allows institutions to manage, evaluate, and resolve complaints efficiently.</p>
+            <p>Educational campuses host large populations of students, faculty, and administrative staff who share a complex network of physical facilities, digital infrastructure, and academic services. Keeping these systems running smoothly requires an efficient feedback loop. ResolveNow provides this loop by allowing students to register and track complaints, while administrators receive the tools needed to prioritize, monitor, and resolve issues systematically.</p>
+            
+            <h2 id="1-2">1.2 Project Scope & Limitations</h2>
+            <p>The scope of this project includes the design, implementation, testing, and deployment of a fully functional web-based complaint management application. Features include:</p>
+            <ol>
+                <li>Secure email-password authentication with role segregation.</li>
+                <li>A database to log complaints under specific categories (Infrastructure, Academic, Hostel, Wi-Fi).</li>
+                <li>Interactive student and administrator dashboards containing real-time status trackers and metrics.</li>
+                <li>A searchable, filterable administrative interface with sorting and status controls.</li>
+            </ol>
+            <p><strong>Current Boundaries & Limitations:</strong> The initial version is restricted to single-organization deployment. It uses a single-tier administrator role, meaning complaints cannot yet be automatically routed to department heads (e.g., electrical or IT sub-admins). The system lacks external messaging systems (SMS/email notifications), requiring users to log in to see status changes. Finally, users cannot upload attachments (like screenshots or photos), which will be addressed in future versions.</p>
+            
+            <div class="page-break"></div>
+            <h2 id="1-3">1.3 Motivation & Core Philosophy</h2>
+            <p>The motivation for building ResolveNow stems from the inefficiencies found in traditional campus administration. Most colleges still log complaints using physical registers or open spreadsheets. These methods suffer from several key issues:</p>
+            <ul>
+                <li><strong>Lack of Accountability:</strong> Written complaints can be misplaced or ignored, leaving students without updates on their status.</li>
+                <li><strong>Inefficient Sorting:</strong> Administration staff must sort through pages of handwritten notes to compile issues by urgency or category.</li>
+                <li><strong>No Historical Records:</strong> Without a searchable database, it is difficult to identify recurring issues (like a specific router frequently losing connection).</li>
+            </ul>
+            <p>The core philosophy of ResolveNow is to build a centralized, real-time platform where issues are registered, indexed, and resolved in a transparent and auditable manner. This improves communication, helps administrators allocate resources more effectively, and boosts student satisfaction.</p>
+            
+            <h2 id="1-4">1.4 Problem Statement of Legacy Systems</h2>
+            <p>Legacy complaint processes in academic institutions are heavily manual and prone to bottlenecking. The following matrix illustrates the differences between manual registration and the automated ResolveNow system:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Operational Factor</th>
+                        <th>Manual Paper-based Registers</th>
+                        <th>ResolveNow Automated Platform</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Registration Speed</strong></td>
+                        <td>Slow (requires visiting administrative office)</td>
+                        <td>Instant (accessible via desktop or mobile web)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tracking Capability</strong></td>
+                        <td>None (no feedback loop for students)</td>
+                        <td>Real-time dashboard status tracking</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Search & Filtering</strong></td>
+                        <td>Requires manual page search</td>
+                        <td>Instant keyword search and category filtering</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Security & Integrity</strong></td>
+                        <td>Low (registers can be lost, altered, or damaged)</td>
+                        <td>High (database secured by Firebase RBAC)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Analysis</strong></td>
+                        <td>Time-consuming to compile manually</td>
+                        <td>Live statistical counts displayed instantly</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>This comparison highlights the need to replace outdated, manual processes with a digital management system that ensures data security and improves administrative workflow.</p>
+            
+            <div class="page-break"></div>
+            <h2 id="1-5">1.5 Objectives & Key KPI Targets</h2>
+            <p>To evaluate the success of the ResolveNow platform, the project targets several Key Performance Indicators (KPIs):</p>
+            <ul>
+                <li><strong>Registration Time reduction:</strong> Reduce the average time a student spends filing a complaint from 20 minutes to under 60 seconds.</li>
+                <li><strong>Administrative processing speed:</strong> Reduce the average time to read and categorize a complaint from 3 days to under 4 hours.</li>
+                <li><strong>Transparency Index:</strong> Ensure every submitted complaint has a clear status (Pending, Accepted, Resolved, Rejected, Unresolved) visible to the student.</li>
+                <li><strong>Vulnerability rate:</strong> Achieve zero unauthorized database access attempts by using role-based routing checks.</li>
+                <li><strong>Interface Speed:</strong> Keep page-to-page navigation times under 150ms on standard 3G/4G networks through Vite build optimizations.</li>
+            </ul>
+        </div>
+
+        <!-- CHAPTER 2 -->
+        <div id="chapter2" class="page-break">
+            <h1>Chapter 2: Literature Survey</h1>
+            
+            <h2 id="2-1">2.1 Analysis of Traditional Complaint Logs</h2>
+            <p>Historically, campus complaint management relied on physical logbooks kept at administrative desks or hostels. When a student encountered an issue, they had to walk to the office and write down details such as the date, description, and contact info in a register. The administrator would then manually review the logbook, compile issues, and assign tasks to maintenance teams.</p>
+            <p>As personal computers became common, some campuses moved to shared spreadsheets (e.g., Microsoft Excel or Google Sheets) or basic email accounts. While this solved the issue of physical storage, it introduced new problems: sheets could be accidentally overwritten, emails were often lost in busy inboxes, and there was still no automated system for updating students on progress. ResolveNow addresses these challenges by replacing spreadsheets and emails with a dedicated relational NoSQL data structure that guarantees data security and automates status updates.</p>
+            
+            <h2 id="2-2">2.2 System Feasibility Analysis</h2>
+            <p>Before beginning development, a feasibility study was conducted across three key areas:</p>
+            <ol>
+                <li><strong>Technical Feasibility:</strong> The development stack (React.js, Vite, and Firebase) is widely documented and supported. Firebase provides out-of-the-box user authentication and NoSQL data storage, removing the need to configure and maintain a dedicated backend server. This makes the project highly feasible technically.</li>
+                <li><strong>Operational Feasibility:</strong> The interface requires no prior technical training. Students use simple forms to file complaints, and administrators manage tasks through a dashboard with straightforward search, filter, and status update options.</li>
+                <li><strong>Economic Feasibility:</strong> Developing and deploying the system is highly cost-effective. Firebase and Vercel offer free-tier plans that easily cover the resource requirements of a medium-sized college campus. Additionally, the system reduces the administrative costs associated with paper logbooks and manual data entry.</li>
+            </ol>
+            
+            <div class="page-break"></div>
+            <h2 id="2-3">2.3 Technology Stack Evaluation Matrix</h2>
+            <p>To choose the best technology stack for the project, we compared various frontend and database options. The matrix below outlines our evaluation:</p>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Vite + React (Chosen)</th>
+                        <th>Angular / Vue</th>
+                        <th>Plain HTML + PHP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Development Speed</strong></td>
+                        <td>Very High (due to reusable React hooks)</td>
+                        <td>Medium (steeper learning curve)</td>
+                        <td>Low (requires custom templates)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Build Performance</strong></td>
+                        <td>Extremely Fast (Vite HMR & bundling)</td>
+                        <td>Moderate (Webpack builds)</td>
+                        <td>N/A (No compilation step)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>State Control</strong></td>
+                        <td>Simple Context API & state management</td>
+                        <td>Built-in but complex structures</td>
+                        <td>Session-based Page Reloads</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Backend integration</strong></td>
+                        <td>Direct connection via Firebase SDK</td>
+                        <td>Requires custom REST API setup</td>
+                        <td>Manual database connections (PDO)</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2 id="2-4">2.4 React Single Page Application (SPA) Architectural Paradigm</h2>
+            <p>ResolveNow is built as a Single Page Application (SPA). Unlike traditional multi-page websites that reload the entire page on every transition, an SPA loads a single HTML shell. It then dynamically updates the content as the user interacts with the app, using client-side routing managed by <code>react-router-dom</code>.</p>
+            <p>This architecture offers several benefits: it reduces network bandwidth since headers, footers, and scripts load only once, and it provides a smoother, desktop-like user experience. React's Virtual DOM ensures that only the modified parts of the page re-render, keeping the interface highly responsive during real-time database updates.</p>
+            
+            <div class="page-break"></div>
+            <h2 id="2-5">2.5 NoSQL vs SQL Database Choice</h2>
+            <p>Choosing between a relational SQL database (like MySQL or PostgreSQL) and a NoSQL document database (like Cloud Firestore) is a key design decision. The table below compares the two options for this project:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Database Type</th>
+                        <th>Relational SQL (e.g. PostgreSQL)</th>
+                        <th>Cloud Firestore NoSQL (Chosen)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Data Structure</strong></td>
+                        <td>Strict tables with rows and columns</td>
+                        <td>Flexible collections of JSON-like documents</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scalability</strong></td>
+                        <td>Requires complex vertical scaling</td>
+                        <td>Scales horizontally automatically</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Real-time Sync</strong></td>
+                        <td>Requires WebSockets or long polling</td>
+                        <td>Built-in real-time sync with SDK listeners</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Schema Changes</strong></td>
+                        <td>Requires database migrations</td>
+                        <td>Schemaless; easily stores new fields</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Server Setup</strong></td>
+                        <td>Requires server hosting and maintenance</td>
+                        <td>Serverless; fully managed cloud service</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>For ResolveNow, Cloud Firestore's serverless setup and built-in real-time sync made it the ideal choice, allowing the system to update complaint statuses instantly without manual server configuration.</p>
+        </div>
+
+        <!-- CHAPTER 3 -->
+        <div id="chapter3" class="page-break">
+            <h1>Chapter 3: Software Development Methodology</h1>
+            
+            <h2 id="3-1">3.1 SDLC Process Model Selection</h2>
+            <p>The development of ResolveNow followed the <strong>Agile Scrum Methodology</strong>. Traditional waterfall development is less suited for web applications, as design and feature requirements often shift during user testing. Agile Scrum breaks development down into short, iterative cycles called sprints, allowing for continuous feedback and improvement.</p>
+            
+            <div class="flow-step-grid">
+                <div class="flow-step">
+                    <span class="step-num">1</span>
+                    <h5>Sprint Planning</h5>
+                    <p>Select features from the backlog to implement in the upcoming sprint.</p>
+                </div>
+                <div class="flow-step">
+                    <span class="step-num">2</span>
+                    <h5>Active Development</h5>
+                    <p>Write React code, configure database models, and style elements.</p>
+                </div>
+                <div class="flow-step">
+                    <span class="step-num">3</span>
+                    <h5>Sprint Review</h5>
+                    <p>Demo working features to project guides and gather feedback.</p>
+                </div>
+                <div class="flow-step">
+                    <span class="step-num">4</span>
+                    <h5>Retrospective</h5>
+                    <p>Evaluate sprint performance and optimize development processes.</p>
+                </div>
+            </div>
+            <p>Using this iterative process ensured that security, routing, and user interface features were developed, tested, and polished in manageable phases.</p>
+            
+            <h2 id="3-2">3.2 Agile Scrum Framework & Sprint Planning</h2>
+            <p>The project was completed over three development sprints, each lasting two weeks:</p>
+            <ul>
+                <li><strong>Sprint 1: Core Setup & Authentication (Weeks 1-2):</strong> Initialized Vite and React, configured the Firebase SDK, created registration and login pages, and built route protection controls.</li>
+                <li><strong>Sprint 2: Student Panel & Complaint Filing (Weeks 3-4):</strong> Built the student dashboard, configured Firestore collections for complaints, designed the complaint submission form, and implemented the list view.</li>
+                <li><strong>Sprint 3: Admin Workspace & Verification (Weeks 5-6):</strong> Developed the administrative dashboard, added status update actions, implemented search and filter options, ran test suites, and deployed to production on Vercel.</li>
+            </ul>
+            
+            <div class="page-break"></div>
+            <h2 id="3-3">3.3 Agile User Stories & Backlog Grooming</h2>
+            <p>User stories helped define functional requirements from the perspective of both students and administrators:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>User Role</th>
+                        <th>User Story Description</th>
+                        <th>Acceptance Criteria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Student</strong></td>
+                        <td>As a student, I want to create an account so I can securely log in and file complaints.</td>
+                        <td>Email must be verified; account role must be saved as "student" in Firestore.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Student</strong></td>
+                        <td>As a student, I want to view my past complaints so I can check their resolution status.</td>
+                        <td>Dashboard displays real-time status counts; history list updates dynamically.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Administrator</strong></td>
+                        <td>As an admin, I want to view all complaints submitted across campus.</td>
+                        <td>Master dashboard displays all records sorted by date.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Administrator</strong></td>
+                        <td>As an admin, I want to search and filter complaints to find urgent issues.</td>
+                        <td>Search matches keywords in titles; dropdowns filter by category or status.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Administrator</strong></td>
+                        <td>As an admin, I want to change a complaint's status so students know it is being addressed.</td>
+                        <td>Clicking status updates Firestore and updates the student's dashboard.</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2 id="3-4">3.4 Work Breakdown Structure (WBS)</h2>
+            <p>The project was organized into five main phases:</p>
+            <ol>
+                <li><strong>Phase 1: Project Initiation & Requirements Gathering</strong>
+                    <ul>
+                        <li>Identify user requirements and construct DFD diagrams.</li>
+                        <li>Research development tools and configure the Firebase environment.</li>
+                    </ul>
+                </li>
+                <li><strong>Phase 2: Database and Authentication Architecture</strong>
+                    <ul>
+                        <li>Design NoSQL schemas for the <code>user</code> and <code>complaints</code> collections.</li>
+                        <li>Configure Firebase Authentication email-password login parameters.</li>
+                    </ul>
+                </li>
+                <li><strong>Phase 3: Frontend Interface Development</strong>
+                    <ul>
+                        <li>Create components for the Landing page, login/signup forms, and dashboards.</li>
+                        <li>Style the application using global Glassmorphism CSS.</li>
+                    </ul>
+                </li>
+                <li><strong>Phase 4: Backend API Integration</strong>
+                    <ul>
+                        <li>Connect the frontend forms to Firestore using the Firebase SDK.</li>
+                        <li>Implement Route Protection middleware to secure admin and student dashboards.</li>
+                    </ul>
+                </li>
+                <li><strong>Phase 5: Quality Assurance & Deployment</strong>
+                    <ul>
+                        <li>Run unit, integration, and role-security tests.</li>
+                        <li>Deploy the application to Vercel and write project documentation.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <!-- CHAPTER 4 -->
+        <div id="chapter4" class="page-break">
+            <h1>Chapter 4: System Specifications</h1>
+            
+            <h2 id="4-1">4.1 Hardware Environment Specification</h2>
+            <p>The system was developed and tested using the following hardware specifications:</p>
+            
+            <h3>A. Development Workstation Specifications</h3>
+            <ul>
+                <li><strong>CPU:</strong> Intel Core i5 or AMD Ryzen 5 processor.</li>
+                <li><strong>System RAM:</strong> 8 GB DDR4 or higher.</li>
+                <li><strong>Storage:</strong> 256 GB SSD (Solid State Drive) minimum.</li>
+                <li><strong>Display Resolution:</strong> 1920x1080 Full HD recommended for testing responsive layout designs.</li>
+            </ul>
+            
+            <h3>B. Target Server Hosting Infrastructure</h3>
+            <ul>
+                <li><strong>Hosting Provider:</strong> Vercel Global Edge Network.</li>
+                <li><strong>Database Server:</strong> Google Firebase multi-regional hosting nodes.</li>
+            </ul>
+            
+            <h3>C. Target Client Device Specifications</h3>
+            <ul>
+                <li><strong>Desktops & Laptops:</strong> Intel/AMD/Apple CPU, 2GB RAM, 1024x768 minimum display resolution.</li>
+                <li><strong>Smartphones & Tablets:</strong> iOS or Android devices with a standard web browser (Safari, Chrome, Firefox).</li>
+            </ul>
+            
+            <h2 id="4-2">4.2 Software Environment Specification</h2>
+            <p>The software environment used for development, testing, and deployment includes:</p>
+            
+            <h3>A. Developer Local Software Configurations</h3>
+            <ul>
+                <li><strong>Operating System:</strong> Windows 11 Home/Pro, macOS Sequoia, or Ubuntu LTS.</li>
+                <li><strong>Runtime Environment:</strong> Node.js (v18.x or v20.x LTS) with NPM package manager.</li>
+                <li><strong>IDE Tool:</strong> Visual Studio Code with ESLint and Prettier extensions.</li>
+            </ul>
+            
+            <h3>B. Software Frameworks & Dependencies</h3>
+            <ul>
+                <li><strong>Frontend Engine:</strong> React.js v19 (rendering Single Page Application).</li>
+                <li><strong>Build System:</strong> Vite Bundler v7.</li>
+                <li><strong>Routing Engine:</strong> React Router DOM v7.</li>
+                <li><strong>Icons Library:</strong> Lucide React v0.5.</li>
+                <li><strong>Cloud SDK:</strong> Google Firebase Web Core SDK v12.</li>
+            </ul>
+            
+            <div class="page-break"></div>
+            <h2 id="4-3">4.3 Functional Requirements Breakdown (Actor-wise)</h2>
+            <p>The functional requirements define how different users (actors) interact with the ResolveNow system:</p>
+            
+            <div class="visual-diagram-container">
+                <h5>Use Case Actor Interaction Model</h5>
+                <svg width="600" height="280" viewBox="0 0 600 280" style="background:#0f172a; border-radius:8px;">
+                    <!-- Left Actor (Student) -->
+                    <circle cx="80" cy="110" r="18" fill="#38bdf8"/>
+                    <line x1="80" y1="128" x2="80" y2="170" stroke="#38bdf8" stroke-width="3"/>
+                    <line x1="60" y1="145" x2="100" y2="145" stroke="#38bdf8" stroke-width="3"/>
+                    <line x1="80" y1="170" x2="65" y2="210" stroke="#38bdf8" stroke-width="3"/>
+                    <line x1="80" y1="170" x2="95" y2="210" stroke="#38bdf8" stroke-width="3"/>
+                    <text x="80" y="235" fill="#38bdf8" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Student</text>
+                    
+                    <!-- Right Actor (Admin) -->
+                    <circle cx="520" cy="110" r="18" fill="#a855f7"/>
+                    <line x1="520" y1="128" x2="520" y2="170" stroke="#a855f7" stroke-width="3"/>
+                    <line x1="500" y1="145" x2="540" y2="145" stroke="#a855f7" stroke-width="3"/>
+                    <line x1="520" y1="170" x2="505" y2="210" stroke="#a855f7" stroke-width="3"/>
+                    <line x1="520" y1="170" x2="535" y2="210" stroke="#a855f7" stroke-width="3"/>
+                    <text x="520" y="235" fill="#a855f7" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Admin</text>
+                    
+                    <!-- Center Use Cases -->
+                    <rect x="200" y="20" width="200" height="40" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+                    <text x="300" y="45" fill="#cbd5e1" font-family="sans-serif" font-size="11" text-anchor="middle">Register & Authenticate Account</text>
+                    
+                    <rect x="200" y="80" width="200" height="40" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+                    <text x="300" y="105" fill="#cbd5e1" font-family="sans-serif" font-size="11" text-anchor="middle">Lodge Complaint Form</text>
+                    
+                    <rect x="200" y="140" width="200" height="40" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
+                    <text x="300" y="165" fill="#cbd5e1" font-family="sans-serif" font-size="11" text-anchor="middle">Search, Filter & Sort Logs</text>
+                    
+                    <rect x="200" y="200" width="200" height="40" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
+                    <text x="300" y="225" fill="#cbd5e1" font-family="sans-serif" font-size="11" text-anchor="middle">Modify Status Fields</text>
+                    
+                    <!-- Connections -->
+                    <line x1="110" y1="110" x2="195" y2="40" stroke="#38bdf8" stroke-dasharray="4" stroke-width="1.5"/>
+                    <line x1="110" y1="140" x2="195" y2="100" stroke="#38bdf8" stroke-dasharray="4" stroke-width="1.5"/>
+                    <line x1="490" y1="110" x2="405" y2="40" stroke="#a855f7" stroke-dasharray="4" stroke-width="1.5"/>
+                    <line x1="490" y1="140" x2="405" y2="160" stroke="#a855f7" stroke-dasharray="4" stroke-width="1.5"/>
+                    <line x1="490" y1="170" x2="405" y2="220" stroke="#a855f7" stroke-dasharray="4" stroke-width="1.5"/>
+                </svg>
+            </div>
+
+            <h3>Student Actor Functional Requirements</h3>
+            <ul>
+                <li><strong>Account Registration:</strong> Students can register using their email, name, and password, and log in securely.</li>
+                <li><strong>Lodge Complaint:</strong> Lodge a complaint with a title, category selector (Infrastructure, Academic, Hostel, Wi-Fi), and description.</li>
+                <li><strong>Track Status:</strong> View real-time status counts on a personal dashboard.</li>
+                <li><strong>Manage Complaints:</strong> View past complaints in an expandable log view, and delete their own logged reports.</li>
+            </ul>
+
+            <h3>Administrator Actor Functional Requirements</h3>
+            <ul>
+                <li><strong>Account Setup:</strong> Single-admin account check during registration prevents unauthorized admin signups.</li>
+                <li><strong>System Overview:</strong> Master dashboard displaying totals of all complaints registered in the system.</li>
+                <li><strong>Search & Filter Logs:</strong> Filter complaints by category, state, and text keywords.</li>
+                <li><strong>Modify Complaint Status:</strong> Update complaint status (Pending, Accepted, Resolved, Rejected, Unresolved) to sync changes in real time.</li>
+                <li><strong>Registered Users Panel:</strong> View a list of registered students and manage records.</li>
+            </ul>
+            
+            <div class="page-break"></div>
+            <h2 id="4-4">4.4 Non-Functional Software Quality Requirements</h2>
+            <p>The non-functional requirements define the quality attributes and operational constraints of the ResolveNow system:</p>
+            <ul>
+                <li><strong>Security & Authentication:</strong> Passwords are encrypted on the client side before transmission, and session tokens are validated through Firebase. Protected routes prevent unauthorized access to student and administrator dashboards.</li>
+                <li><strong>Scalability:</strong> Built on a serverless NoSQL database, the system scales automatically as the number of users and complaints grows.</li>
+                <li><strong>Reliability:</strong> System-wide try-catch blocks prevent application crashes during database latency. The web client defaults to localized context state caches if network connections drop.</li>
+                <li><strong>Usability & Responsiveness:</strong> CSS Flexbox and Grid layouts keep the interface responsive on mobile, tablet, and desktop screens. Hover effects and clear status colors guide the user experience.</li>
+                <li><strong>Performance:</strong> Using the Vite build tool keeps the production bundle size minimal, ensuring page load times remain under 1.5 seconds.</li>
+            </ul>
+        </div>
+
+        <!-- CHAPTER 5 -->
+        <div id="chapter5" class="page-break">
+            <h1>Chapter 5: System Design</h1>
+            
+            <h2 id="5-1">5.1 Block-Level System Architecture</h2>
+            <p>ResolveNow uses a three-tier architecture that separates the presentation layer, the application logic, and the cloud data storage services:</p>
+            
+            <div class="visual-diagram-container">
+                <h5>Detailed Modular Component Layout</h5>
+                <svg width="680" height="340" viewBox="0 0 680 340" style="background:#0f172a; border-radius:8px;">
+                    <!-- Presentation Layer -->
+                    <rect x="20" y="30" width="180" height="280" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+                    <text x="110" y="55" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Presentation (Client UI)</text>
+                    
+                    <rect x="35" y="80" width="150" height="35" rx="4" fill="#334155"/>
+                    <text x="110" y="102" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">Landing / Introduction</text>
+                    
+                    <rect x="35" y="130" width="150" height="35" rx="4" fill="#334155"/>
+                    <text x="110" y="152" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">Auth Panels (Login/Signup)</text>
+                    
+                    <rect x="35" y="180" width="150" height="35" rx="4" fill="#334155"/>
+                    <text x="110" y="202" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">Student Dash & Form</text>
+                    
+                    <rect x="35" y="230" width="150" height="35" rx="4" fill="#334155"/>
+                    <text x="110" y="252" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">Admin Table & Filters</text>
+
+                    <!-- Connection Lines 1 -->
+                    <line x1="200" y1="120" x2="250" y2="120" stroke="#f1f5f9" stroke-width="2"/>
+                    <line x1="200" y1="220" x2="250" y2="220" stroke="#f1f5f9" stroke-width="2"/>
+
+                    <!-- Logic Layer -->
+                    <rect x="250" y="30" width="180" height="280" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+                    <text x="340" y="55" fill="#f59e0b" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Application Logic Layer</text>
+                    
+                    <rect x="265" y="80" width="150" height="40" rx="4" fill="#334155"/>
+                    <text x="340" y="100" fill="#cbd5e1" font-family="sans-serif" font-size="9" text-anchor="middle">React Router Guard</text>
+                    <text x="340" y="112" fill="#94a3b8" font-family="sans-serif" font-size="8" text-anchor="middle">(ProtectedRoute.jsx)</text>
+                    
+                    <rect x="265" y="140" width="150" height="40" rx="4" fill="#334155"/>
+                    <text x="340" y="160" fill="#cbd5e1" font-family="sans-serif" font-size="9" text-anchor="middle">Complaint State Provider</text>
+                    <text x="340" y="172" fill="#94a3b8" font-family="sans-serif" font-size="8" text-anchor="middle">(ComplaintContext.jsx)</text>
+                    
+                    <rect x="265" y="200" width="150" height="40" rx="4" fill="#334155"/>
+                    <text x="340" y="220" fill="#cbd5e1" font-family="sans-serif" font-size="9" text-anchor="middle">Query Helper Functions</text>
+                    <text x="340" y="232" fill="#94a3b8" font-family="sans-serif" font-size="8" text-anchor="middle">(Filter, Sort, Search)</text>
+
+                    <!-- Connection Lines 2 -->
+                    <line x1="430" y1="120" x2="480" y2="120" stroke="#f1f5f9" stroke-width="2"/>
+                    <line x1="430" y1="220" x2="480" y2="220" stroke="#f1f5f9" stroke-width="2"/>
+
+                    <!-- Data Layer -->
+                    <rect x="480" y="30" width="180" height="280" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+                    <text x="570" y="55" fill="#10b981" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Cloud Data Layer (Firebase)</text>
+                    
+                    <rect x="495" y="80" width="150" height="45" rx="4" fill="#334155"/>
+                    <text x="570" y="100" fill="#cbd5e1" font-family="sans-serif" font-size="9" text-anchor="middle">Firebase Authentication</text>
+                    <text x="570" y="115" fill="#a7f3d0" font-family="sans-serif" font-size="8" text-anchor="middle">Email-password verification</text>
+                    
+                    <rect x="495" y="145" width="150" height="45" rx="4" fill="#334155"/>
+                    <text x="570" y="165" fill="#cbd5e1" font-family="sans-serif" font-size="9" text-anchor="middle">Firestore User profiles</text>
+                    <text x="570" y="180" fill="#a7f3d0" font-family="sans-serif" font-size="8" text-anchor="middle">Role tags (student / admin)</text>
+                    
+                    <rect x="495" y="210" width="150" height="45" rx="4" fill="#334155"/>
+                    <text x="570" y="230" fill="#cbd5e1" font-family="sans-serif" font-size="9" text-anchor="middle">Firestore Complaints logs</text>
+                    <text x="570" y="245" fill="#a7f3d0" font-family="sans-serif" font-size="8" text-anchor="middle">Complaint documents</text>
+                </svg>
+            </div>
+            
+            <h2 id="5-2">5.2 Database Entity Schema & Collections</h2>
+            <p>As a document database, Cloud Firestore stores data in JSON-like documents organized into collections. Below is the structural schema of the database:</p>
+
+            <div style="display: flex; gap: 2rem; margin: 2rem 0;">
+                <div style="flex: 1; border: 1px solid var(--slate-200); border-radius: 8px; padding: 1.5rem; background: var(--slate-50);">
+                    <h5 style="margin-top: 0; color: var(--primary);">User Collection Document Schema</h5>
+                    <ul style="padding-left: 1.25rem; font-family: var(--font-sans); font-size: 0.85rem; list-style: square;">
+                        <li><strong>uid:</strong> String (Primary Key)</li>
+                        <li><strong>name:</strong> String</li>
+                        <li><strong>email:</strong> String</li>
+                        <li><strong>role:</strong> String (Value: "student" | "admin")</li>
+                        <li><strong>createdAt:</strong> ServerTimestamp</li>
+                    </ul>
+                </div>
+                <div style="flex: 1; border: 1px solid var(--slate-200); border-radius: 8px; padding: 1.5rem; background: var(--slate-50);">
+                    <h5 style="margin-top: 0; color: var(--success);">Complaints Collection Schema</h5>
+                    <ul style="padding-left: 1.25rem; font-family: var(--font-sans); font-size: 0.85rem; list-style: square;">
+                        <li><strong>id:</strong> AutoHashString (Primary Key)</li>
+                        <li><strong>userId:</strong> String (Foreign Key user.uid)</li>
+                        <li><strong>title:</strong> String</li>
+                        <li><strong>description:</strong> String</li>
+                        <li><strong>category:</strong> String</li>
+                        <li><strong>status:</strong> String</li>
+                        <li><strong>date:</strong> Timestamp</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="page-break"></div>
+            <h2 id="5-3">5.3 Data Flow Diagrams (DFD Levels 0, 1, and 2)</h2>
+            <p>The DFD diagrams illustrate how data moves through the ResolveNow system, from user input to storage and retrieval:</p>
+            
+            <h3>DFD Level 0: Context Level Diagram</h3>
+            <div class="ascii-diagram">
++------------+       Credentials / Complaint Details       +------------+
+|            | -----------------------------------------> |            |
+|  Student   | <----------------------------------------- |            |
+|            |         Dash Stats & Status Logs           |            |
++------------+                                            | ResolveNow |
+                                                          |  Platform  |
++------------+        Search Queries & Status Updates     |            |
+|            | -----------------------------------------> |            |
+|   Admin    | <----------------------------------------- |            |
+|            |            System-wide Metrics             |            |
++------------+                                            +------------+</div>
+
+            <h3>DFD Level 1: System Process Diagram</h3>
+            <div class="ascii-diagram">
+Student ---> [1.0 Authenticate] <==== User Session Credentials =====> (Firebase Auth)
+                 |
+                 v
+Student ---> [2.0 Manage Complaints] <=== CRUD Operations ===> (Firestore: complaints)
+                 ^
+                 |
+Admin ------> [3.0 System Administration] <=== Read/Update ===> (Firestore: user & complaints)</div>
+
+            <h3>DFD Level 2: CRUD Complaint Processing Detail</h3>
+            <div class="ascii-diagram">
+Student Form Submission ---> [2.1 Write Complaint] ---> Add Auto Timestamp ---> Save in Firestore
+                                                                                    |
+                                                                                    v
+Admin dashboard List <--- [2.2 Read & Filter Queries] <--- Sync Live Firestore data Collection
+                                 |
+                                 v
+Admin Action Button --------> [2.3 Write Status Update] ---> Update status field ---> Update DB</div>
+            
+            <div class="page-break"></div>
+            <h2 id="5-4">5.4 Unified Modeling Language (UML) Diagrams</h2>
+            <p>To further detail system interactions, we constructed Use Case and Sequence diagrams:</p>
+            
+            <h3>Use Case Diagram (Actors vs System Boundaries)</h3>
+            <p>The Use Case diagram shows the system boundaries and the operations available to each user role. Students handle account creation, complaint filing, and tracking, while administrators manage status updates, perform searches, and view user databases.</p>
+
+            <h3>Sequence Diagram: Filing and Updating a Complaint</h3>
+            <div class="ascii-diagram">
+Student                 StudentDash             Firebase Auth            Cloud Firestore          AdminPanel
+   |                         |                        |                         |                      |
+   |-- 1. Signup / Login --->|                        |                         |                      |
+   |                         |-- 2. Verify Session -->|                         |                      |
+   |                         |<-- 3. Token Valid -----|                         |                      |
+   |-- 4. Fill & Submit ---->|                                                  |                      |
+   |                         |-- 5. addDoc(complaint) ------------------------->|                      |
+   |                         |                                                  |-- 6. Trigger Sync -->|
+   |                         |                                                  |                      |-- 7. View log
+   |                         |                                                  |                      |-- 8. Edit status
+   |                         |                                                  |<-- 9. updateDoc()----|
+   |                         |<-- 10. Sync update values -----------------------|                      |
+   |-- 11. View resolved ----|                                                  |                      |</div>
+            
+            <h2 id="5-5">5.5 User Interface Guidelines & Aesthetics</h2>
+            <p>The user interface of ResolveNow is designed around a modern **Glassmorphism** aesthetic. Rather than using rigid white backgrounds, the interface features semi-transparent, frosted-glass panels layered over a subtle blue-to-indigo gradient. This design approach is defined by key styling principles:</p>
+            <ul>
+                <li><strong>Transparency & Blur:</strong> Glass panels use a semi-transparent background color (<code>rgba(255, 255, 255, 0.6)</code>) coupled with a backdrop filter (<code>backdrop-filter: blur(12px)</code>) to create depth.</li>
+                <li><strong>Reflective Borders:</strong> Borders are thin and light (<code>rgba(255, 255, 255, 0.8)</code>) to mimic the light reflection on the edges of real glass.</li>
+                <li><strong>Soft Shadows:</strong> Shadows are soft and diffused (<code>rgba(31, 38, 135, 0.1)</code>) to make panels stand out from the background gradient without adding visual clutter.</li>
+                <li><strong>Color Harmony & Status Coding:</strong> We used a slate gray color scheme for text (<code>#1e293b</code> and <code>#64748b</code>) to ensure readability, while assigning distinct colors to complaint statuses (Yellow for Pending, Blue for Accepted, Green for Resolved, and Red for Rejected).</li>
+            </ul>
+        </div>
+
+        <!-- CHAPTER 6 -->
+        <div id="chapter6" class="page-break">
+            <h1>Chapter 6: Implementation Details</h1>
+            
+            <h2 id="6-1">6.1 Codebase Project Architecture Tree</h2>
+            <p>The codebase is organized into modular directories that separate components, page layouts, context state providers, and assets:</p>
+            <pre><code>CMS/
+├── public/                 # Static assets (favicons, report attachments)
+│   ├── vite.svg
+│   ├── project_report.md
+│   └── project_report.html
+├── src/
+│   ├── assets/             # Assets and custom fonts
+│   ├── components/
+│   │   └── ProtectedRoute.jsx  # Route middleware check component
+│   ├── context/
+│   │   └── ComplaintContext.jsx # Local state management backup
+│   ├── pages/
+│   │   ├── Introduction.jsx    # Project Home Landing page
+│   │   ├── RoleSelection.jsx   # Role routing selection
+│   │   ├── Login.jsx           # Portal signin layout
+│   │   ├── Signup.jsx          # Account registration layout
+│   │   ├── StudentDashboard.jsx# Student UI & filing form
+│   │   └── AdminDashboard.jsx  # Admin database table panel
+│   ├── App.css
+│   ├── App.jsx             # React routing table
+│   ├── index.css           # Global glassmorphism stylesheet
+│   ├── firebase.js         # Cloud initialization SDK configs
+│   └── main.jsx            # React rendering DOM anchor
+├── package.json            # Scripts & libraries dependencies
+└── vite.config.js          # Vite bundler parameters</code></pre>
+            
+            <h2 id="6-2">6.2 Firebase Database Initialization Code</h2>
+            <p>The <code>src/firebase.js</code> file initializes the Firebase core application client and exports the Authentication and Firestore Database services:</p>
+            <pre><code>// Import core modules from Firebase SDK
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
+// Configuration settings linked to Google cloud console project
+const firebaseConfig = {
+    apiKey: "AIzaSyAXTdAxSP-ROJ0MFIufx-WKk-r2HhOTN7w",
+    authDomain: "complaint-management-sys-b2250.firebaseapp.com",
+    projectId: "complaint-management-sys-b2250",
+    storageBucket: "complaint-management-sys-b2250.firebasestorage.app",
+    messagingSenderId: "908442936065",
+    appId: "1:908442936065:web:5da8e4f4a720061921b100",
+    measurementId: "G-EW8LS00EPW"
+};
+
+// Initialize the Firebase app instance
+const app = initializeApp(firebaseConfig);
+
+// Export instances to allow components to execute CRUD operations
+export const auth = getAuth(app);
+export const db = getFirestore(app);</code></pre>
+            
+            <div class="page-break"></div>
+            <h2 id="6-3">6.3 Routing & Protected Routes Implementation</h2>
+            <p>To secure dashboards, the <code>ProtectedRoute.jsx</code> middleware acts as a route guard. It reads user roles from the database to prevent unauthorized access:</p>
+            <pre><code>import React, { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { auth, db } from '../firebase';
+import { doc, getDoc } from 'firebase/firestore';
+
+const ProtectedRoute = ({ children, allowedRole }) => {
+    const [status, setStatus] = useState('loading');
+    const [authorized, setAuthorized] = useState(false);
+
+    useEffect(() => {
+        // Listen for authentication state changes
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                try {
+                    // Fetch user document from Firestore to verify their role
+                    const userDoc = await getDoc(doc(db, "user", user.uid));
+                    if (userDoc.exists() && userDoc.data().role === allowedRole) {
+                        setAuthorized(true);
+                    } else {
+                        setAuthorized(false);
+                    }
+                } catch (err) {
+                    console.error("Authorization check failed", err);
+                    setAuthorized(false);
+                }
+            } else {
+                setAuthorized(false);
+            }
+            setStatus('done');
+        });
+        return unsubscribe;
+    }, [allowedRole]);
+
+    if (status === 'loading') {
+        return (
+            &lt;div style={{ display:'flex', justifyContent:'center', alignItems:'center', height:'100vh', background:'var(--bg-gradient)' }}&gt;
+                &lt;div class="glass-panel" style={{ padding:'2rem' }}&gt;Verifying credentials...&lt;/div&gt;
+            &lt;/div&gt;
+        );
+    }
+
+    // Redirect to home if unauthorized, otherwise render the dashboard
+    return authorized ? children : &lt;Navigate to="/" replace /&gt;;
+};
+
+export default ProtectedRoute;</code></pre>
+            
+            <div class="page-break"></div>
+            <h2 id="6-4">6.4 Student Dashboard Logic Walkthrough</h2>
+            <p>The student dashboard provides a clean interface for filing complaints and tracking their status. When a student logs in, the dashboard fetches their specific complaints from Firestore and displays them in an expandable list:</p>
+            <pre><code>// Query complaints filed by the authenticated student
+React.useEffect(() => {
+    const fetchComplaints = async () => {
+        if (!auth.currentUser) return;
+        try {
+            const { getDocs, query, where } = await import("firebase/firestore");
+            
+            // Query filters results to match the logged-in student's UID
+            const q = query(
+                collection(db, "complaints"), 
+                where("userId", "==", auth.currentUser.uid)
+            );
+            
+            const querySnapshot = await getDocs(q);
+            const complaintsData = [];
+            
+            querySnapshot.forEach((doc) => {
+                complaintsData.push({ id: doc.id, ...doc.data() });
+            });
+
+            // Sort by date, newest first
+            complaintsData.sort((a, b) => (b.date?.seconds || 0) - (a.date?.seconds || 0));
+            setFetchedComplaints(complaintsData);
+        } catch (error) {
+            console.error("Error fetching complaints:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    fetchComplaints();
+}, [activeView]);</code></pre>
+            <p><strong>Complaint Submission Logic:</strong> When the form is submitted, the application calls Firestore's <code>addDoc</code> function, passing the form data along with the student's UID, the current timestamp, and a default status of <code>"pending"</code>.</p>
+            
+            <h2 id="6-5">6.5 Administrative Logic & Operations Walkthrough</h2>
+            <p>The administrator dashboard displays complaints from all users. It includes search and filter functions to help admins manage and update issues efficiently:</p>
+            <pre><code>// Admin action handler to update complaint status
+const updateStatus = async (complaintId, newStatus) => {
+    try {
+        const complaintRef = doc(db, "complaints", complaintId);
+        
+        // Update the status field in Firestore
+        await updateDoc(complaintRef, {
+            status: newStatus
+        });
+        
+        // Update local state to trigger a re-render without reloading the page
+        setComplaints(prev => prev.map(c => 
+            c.id === complaintId ? { ...c, status: newStatus } : c
+        ));
+        
+        console.log(`Status updated successfully to ${newStatus}`);
+    } catch (err) {
+        console.error("Error updating complaint status:", err);
+        alert("Action failed. Please try again.");
+    }
+};</code></pre>
+            <p>This status update is saved directly to Firestore, updating the student's dashboard instantly via the real-time query listener.</p>
+        </div>
+
+        <!-- CHAPTER 7 -->
+        <div id="chapter7" class="page-break">
+            <h1>Chapter 7: Testing & Quality Assurance</h1>
+            
+            <h2 id="7-1">7.1 Quality Assurance Methodologies</h2>
+            <p>To ensure system stability, security, and usability, we implemented a structured quality assurance process across four testing stages:</p>
+            <ol>
+                <li><strong>Unit Testing:</strong> Verified that individual functions—such as date formatting, status color mapping, and form input validation—worked correctly under various edge cases.</li>
+                <li><strong>Integration Testing:</strong> Tested the interaction between components, ensuring that database updates from the admin dashboard synced correctly with the student dashboard.</li>
+                <li><strong>Security & Role-Based Access Control (RBAC) Testing:</strong> Verified that guest users could not access dashboard routes and that students were blocked from opening admin portals.</li>
+                <li><strong>Usability & Responsive Layout Testing:</strong> Tested the user interface on multiple screen sizes and devices (desktops, tablets, and smartphones) to ensure layouts stayed aligned and readable.</li>
+            </ol>
+            
+            <div class="page-break"></div>
+            <h2 id="7-2">7.2 Master Test Suite Table</h2>
+            <p>The following test suite table documents key validation checks run on the system, detailing inputs, expected results, and final outcomes:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Module / Feature</th>
+                        <th>Test Input Details</th>
+                        <th>Expected Behavior</th>
+                        <th>Actual Outcome</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>TC-01</strong></td>
+                        <td>Student Signup</td>
+                        <td>Valid name, unique email, matching passwords.</td>
+                        <td>Creates Auth account and saves user role in database.</td>
+                        <td>Account created successfully; database fields verified.</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-02</strong></td>
+                        <td>Signup Validation</td>
+                        <td>Short password (&lt; 6 chars).</td>
+                        <td>Firebase Auth rejects password and displays error message.</td>
+                        <td>Rejected; displayed "Password is too weak".</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-03</strong></td>
+                        <td>Signup Conflict</td>
+                        <td>Register with an already registered email.</td>
+                        <td>Rejects registration and displays duplicate account error.</td>
+                        <td>Displayed "An account with this email already exists".</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-04</strong></td>
+                        <td>Student Login</td>
+                        <td>Valid student credentials.</td>
+                        <td>Redirects user to <code>/student/dashboard</code>.</td>
+                        <td>Redirected successfully; user profile loaded.</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-05</strong></td>
+                        <td>Admin Login Check</td>
+                        <td>Admin attempts login on student portal.</td>
+                        <td>Blocks login and displays role mismatch error.</td>
+                        <td>Access denied; displayed "You are registered as an Admin".</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-06</strong></td>
+                        <td>Route Protection</td>
+                        <td>Unauthenticated user attempts to access <code>/admin/dashboard</code>.</td>
+                        <td>ProtectedRoute intercepts request and redirects to homepage.</td>
+                        <td>Redirected to landing page; console logged access block.</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-07</strong></td>
+                        <td>Lodge Complaint</td>
+                        <td>Fills title and description, selects category.</td>
+                        <td>Saves complaint in Firestore with "pending" status.</td>
+                        <td>Document created with correct student UID.</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-08</strong></td>
+                        <td>Form Validation</td>
+                        <td>Submits form with empty description field.</td>
+                        <td>Form submission blocked; validation error displayed.</td>
+                        <td>Submission blocked; form fields remained intact.</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-09</strong></td>
+                        <td>Update Status</td>
+                        <td>Admin changes complaint status to "Accepted".</td>
+                        <td>Updates status in Firestore and refreshes dashboards.</td>
+                        <td>Status updated; changes reflected on student dashboard.</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-10</strong></td>
+                        <td>Student Deletion</td>
+                        <td>Student clicks delete on own complaint.</td>
+                        <td>Removes document from Firestore and updates list view.</td>
+                        <td>Document deleted; list view refreshed.</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-11</strong></td>
+                        <td>Admin Deletion</td>
+                        <td>Admin deletes a student's complaint.</td>
+                        <td>Removes document from Firestore; list view refreshes.</td>
+                        <td>Document removed; admin table refreshed.</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-12</strong></td>
+                        <td>Search Filter</td>
+                        <td>Admin searches for "Wi-Fi".</td>
+                        <td>Filters list to display only complaints containing "Wi-Fi".</td>
+                        <td>Table filtered correctly; non-matching rows hidden.</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-13</strong></td>
+                        <td>Category Filter</td>
+                        <td>Admin filters by "Infrastructure" category.</td>
+                        <td>Filters list to display only infrastructure issues.</td>
+                        <td>Displayed only infrastructure complaints.</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-14</strong></td>
+                        <td>Sort Order</td>
+                        <td>Admin toggles sorting to "Oldest".</td>
+                        <td>Re-sorts complaints, showing oldest submission dates first.</td>
+                        <td>Complaints sorted correctly by date.</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TC-15</strong></td>
+                        <td>Logout Action</td>
+                        <td>User clicks the logout button.</td>
+                        <td>Clears active session tokens and redirects to landing page.</td>
+                        <td>Session ended; redirected to homepage.</td>
+                        <td><strong style="color: var(--success);">Passed</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="page-break"></div>
+            <h2 id="7-3">7.3 Security Audit & Rules Configurations</h2>
+            <p>To protect student records and prevent unauthorized database modifications, we configured security rules for Firestore. These rules ensure that only authenticated students can write complaints and that administrators have the authority to view and update all logs:</p>
+            <pre><code>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // User profile rules
+    match /user/{userId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Complaint document rules
+    match /complaints/{complaintId} {
+      // Authenticated users can read complaints
+      allow read: if request.auth != null;
+      
+      // Students can only create complaints containing their own UID
+      allow create: if request.auth != null 
+        && request.resource.data.userId == request.auth.uid;
+      
+      // Only the author or an admin can delete a complaint
+      allow delete: if request.auth != null 
+        && (resource.data.userId == request.auth.uid 
+            || get(/databases/$(database)/documents/user/$(request.auth.uid)).data.role == 'admin');
+      
+      // Only administrators can update complaint statuses
+      allow update: if request.auth != null 
+        && get(/databases/$(database)/documents/user/$(request.auth.uid)).data.role == 'admin';
+    }
+  }
+}</code></pre>
+            <p>Implementing these rules adds an extra layer of security, protecting backend data even if client-side validation checks are bypassed.</p>
+        </div>
+
+        <!-- CHAPTER 8 -->
+        <div id="chapter8" class="page-break">
+            <h1>Chapter 8: Installation & User Manual</h1>
+            
+            <h2 id="8-1">8.1 Developer Setup & Local Hosting Installation</h2>
+            <p>Follow these steps to set up, configure, and run ResolveNow in a local development environment:</p>
+            
+            <h3>Step 1: Clone the Project Directory</h3>
+            <p>Open your command line interface (CLI) and navigate to your workspace directory. Run the following command to download the codebase (or extract the project zip folder):</p>
+            <pre><code>cd workspace/CMS
+npm install</code></pre>
+            <p>This command downloads all dependencies—including React, React Router, Lucide Icons, and the Firebase SDK—into the <code>node_modules</code> folder.</p>
+            
+            <h3>Step 2: Configure the Firebase Environment</h3>
+            <p>Create a Firebase project in the Google Firebase Console, then enable **Email/Password Sign-in** in the Authentication settings. Next, create a **Cloud Firestore** database. Locate your project web configurations in the Firebase console, then update the config block in <code>src/firebase.js</code> with your project's credentials:</p>
+            <pre><code>const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.firebasestorage.app",
+    messagingSenderId: "SENDER_ID",
+    appId: "APP_ID"
+};</code></pre>
+
+            <h3>Step 3: Run the Development Server</h3>
+            <p>Start the local Vite development server by running the following command:</p>
+            <pre><code>npm run dev</code></pre>
+            <p>Vite will launch the local server, typically making the application accessible at <code>http://localhost:5173</code>.</p>
+            
+            <div class="page-break"></div>
+            <h2 id="8-2">8.2 End User Manual: Student Guide</h2>
+            <p>Follow these instructions to navigate and use the student portal in ResolveNow:</p>
+            
+            <h3>Account Registration & Login</h3>
+            <ol>
+                <li>Open the homepage at <code>http://localhost:5173</code> (or the hosted URL).</li>
+                <li>Click **Get Started** or **Sign In** in the navigation bar to open the role selection page.</li>
+                <li>Select **Student** to open the student login page. If you are a new user, click the **Sign Up** link at the bottom of the page.</li>
+                <li>Fill in your name, email, and password, then click **Sign Up** to create your account and log in.</li>
+            </ol>
+
+            <h3>Filing a Complaint</h3>
+            <ol>
+                <li>From the student dashboard, navigate to the **Submit Complaint** view.</li>
+                <li>Enter a clear, concise title for your issue (e.g., "Library AC fan noise").</li>
+                <li>Select a category from the dropdown menu (e.g., Infrastructure, Academic, Wi-Fi).</li>
+                <li>Describe the issue in detail in the description box, including location info (e.g., "Second floor, main reading room").</li>
+                <li>Click **Submit Complaint** to save the issue to the database. The system will automatically switch to your complaint history view.</li>
+            </ol>
+
+            <h3>Tracking Status & Deleting Logs</h3>
+            <ul>
+                <li><strong>Tracking:</strong> Open the **Recent Complaints** view to see a list of your filed issues. Click a complaint card to expand it and view details such as the date and current status.</li>
+                <li><strong>Deleting:</strong> If you want to withdraw a complaint, click the **Trash** icon on the card, then confirm the deletion in the popup prompt.</li>
+            </ul>
+            
+            <div class="page-break"></div>
+            <h2 id="8-3">8.3 Administrative Workspace Guide</h2>
+            <p>Follow these instructions to manage and update complaints through the administrator portal:</p>
+            
+            <h3>Administrative Access</h3>
+            <ol>
+                <li>On the homepage, click **Sign In** and select **Admin** to open the admin login page.</li>
+                <li>Enter your administrator email and password, then click **Log In** to open the administrative dashboard.</li>
+            </ol>
+            <div class="info-alert">
+                <p><strong>System Note:</strong> The ResolveNow platform restricts administration access to a single administrator account. This security check prevents unauthorized administrative registrations.</p>
+            </div>
+
+            <h3>Reviewing & Filtering Complaints</h3>
+            <ul>
+                <li><strong>Dashboard Overview:</strong> The main admin dashboard displays system-wide metrics, including total complaints, resolved issues, and pending tasks.</li>
+                <li><strong>Search & Filter Logs:</strong> Use the search bar to search for key terms in complaint titles or descriptions. You can also filter the list by status or category using the dropdown menus.</li>
+                <li><strong>Sorting:</strong> Click the sort dropdown to sort complaints by submission date (newest or oldest first).</li>
+            </ul>
+
+            <h3>Updating Complaint Status</h3>
+            <ol>
+                <li>Click a complaint card in the list to expand it and read the student's description.</li>
+                <li>Click the appropriate action button (e.g., Accept, Resolve, Reject) to update the status.</li>
+                <li>The system will save the updated status directly to Firestore, which refreshes the student's dashboard in real time.</li>
+            </ol>
+        </div>
+
+        <!-- CHAPTER 9 -->
+        <div id="chapter9" class="page-break">
+            <h1>Chapter 9: Conclusion & Future Scope</h1>
+            
+            <h2 id="9-1">9.1 Achievements & Project Summary</h2>
+            <p>The development of **ResolveNow** successfully delivers a modern, cloud-based platform that replaces manual campus complaint logs. By separating the user experience into dedicated student and administrator viewports, the application provides clean interfaces tailored to user tasks. Integrating React.js with Google Firebase results in a stable system that securely handles logins and updates complaint data in real time.</p>
+            <p>We met all key objectives defined during planning: students can easily file and track complaints online, while administrators have the search, filter, and status update tools needed to manage tasks efficiently. The glassmorphism design provides a clean and responsive user experience across desktop and mobile screens, and the serverless architecture ensures the platform is cost-effective to host and maintain.</p>
+            
+            <h2 id="9-2">9.2 Technical Constraints & Limitations</h2>
+            <p>While the current system is functional and stable, we identified several areas for improvement:</p>
+            <ul>
+                <li><strong>Manual Status Updates:</strong> The system does not support email or SMS notifications, meaning users must log in to the web app to check for status updates.</li>
+                <li><strong>Static Categories:</strong> Complaint categories are hardcoded in the client application and cannot be customized by administrators.</li>
+                <li><strong>Single Administrative Role:</strong> The platform lacks multi-level administrative roles, preventing admins from assigning tasks to specific department teams (e.g., IT or Maintenance).</li>
+            </ul>
+            
+            <div class="page-break"></div>
+            <h2 id="9-3">9.3 Future Technical Roadmap</h2>
+            <p>To expand ResolveNow, the following features are planned for future versions:</p>
+            
+            <div class="visual-diagram-container">
+                <h5>Future Upgrades & Integrations</h5>
+                <svg width="600" height="200" viewBox="0 0 600 200" style="background:#0f172a; border-radius:8px;">
+                    <!-- Core System -->
+                    <rect x="230" y="80" width="140" height="40" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+                    <text x="300" y="105" fill="#cbd5e1" font-family="sans-serif" font-size="11" text-anchor="middle">ResolveNow Core</text>
+
+                    <!-- Feature 1: Email Notifications -->
+                    <rect x="30" y="20" width="150" height="35" rx="4" fill="#334155" stroke="#f59e0b" stroke-width="1"/>
+                    <text x="105" y="42" fill="#cbd5e1" font-family="sans-serif" font-size="9" text-anchor="middle">Nodemailer Status Alerts</text>
+                    <line x1="180" y1="38" x2="230" y2="85" stroke="#f59e0b" stroke-dasharray="2"/>
+
+                    <!-- Feature 2: AI Routing -->
+                    <rect x="420" y="20" width="150" height="35" rx="4" fill="#334155" stroke="#10b981" stroke-width="1"/>
+                    <text x="495" y="42" fill="#cbd5e1" font-family="sans-serif" font-size="9" text-anchor="middle">AI Auto-routing (NLP)</text>
+                    <line x1="420" y1="38" x2="370" y2="85" stroke="#10b981" stroke-dasharray="2"/>
+
+                    <!-- Feature 3: Storage Uploads -->
+                    <rect x="30" y="140" width="150" height="35" rx="4" fill="#334155" stroke="#a855f7" stroke-width="1"/>
+                    <text x="105" y="162" fill="#cbd5e1" font-family="sans-serif" font-size="9" text-anchor="middle">Firebase Storage (Photos)</text>
+                    <line x1="180" y1="158" x2="230" y2="115" stroke="#a855f7" stroke-dasharray="2"/>
+
+                    <!-- Feature 4: Department Roles -->
+                    <rect x="420" y="140" width="150" height="35" rx="4" fill="#334155" stroke="#38bdf8" stroke-width="1"/>
+                    <text x="495" y="162" fill="#cbd5e1" font-family="sans-serif" font-size="9" text-anchor="middle">Multi-tier Sub-admin Roles</text>
+                    <line x1="420" y1="158" x2="370" y2="115" stroke="#38bdf8" stroke-dasharray="2"/>
+                </svg>
+            </div>
+
+            <ol>
+                <li><strong>Automated Notifications:</strong> Connect Firebase Cloud Functions with Nodemailer to email users when their complaint status updates.</li>
+                <li><strong>AI Auto-routing:</strong> Integrate Natural Language Processing (NLP) to read the complaint text and automatically assign it to categories (like IT, Electrical, or Facilities).</li>
+                <li><strong>File Attachments:</strong> Integrate Firebase Storage so students can upload photos of issues (like broken furniture or leaking pipes).</li>
+                <li><strong>Advanced Departmental Roles:</strong> Introduce department-level sub-admin roles (e.g., Hostel Warden, IT Head) so administrators can assign tickets to specific departments.</li>
+            </ol>
+        </div>
+
+        <!-- REFERENCES -->
+        <div id="references" class="page-break">
+            <h1>References & Bibliography</h1>
+            <ol style="margin-top: 2rem;">
+                <li><strong>ReactJS Official Documentation:</strong> <a href="https://react.dev/" target="_blank">https://react.dev/</a> - Guide on components, states, effects, and Virtual DOM updates.</li>
+                <li><strong>Vite Bundler Tooling Reference:</strong> <a href="https://vite.dev/guide/" target="_blank">https://vite.dev/guide/</a> - Reference on Hot Module Replacement (HMR) and optimized build speeds.</li>
+                <li><strong>Google Firebase Developers Console Docs:</strong> <a href="https://firebase.google.com/docs" target="_blank">https://firebase.google.com/docs</a> - Integration guides for Firebase Authentication and Cloud Firestore queries.</li>
+                <li><strong>React Router DOM Architecture:</strong> <a href="https://reactrouter.com/en/main" target="_blank">https://reactrouter.com/en/main</a> - Routing table, Protected Route switches, and path configuration guides.</li>
+                <li><strong>Lucide Icons Catalog:</strong> <a href="https://lucide.dev/" target="_blank">https://lucide.dev/</a> - Interface icon assets vector definitions.</li>
+                <li><strong>W3Schools CSS Styling Tutorial:</strong> <a href="https://www.w3schools.com/css/" target="_blank">https://www.w3schools.com/css/</a> - Reference for Grid, Flexbox, and backdrop-filter glassmorphism effects.</li>
+                <li><strong>Software Engineering (10th Edition):</strong> Author: Ian Sommerville. Reference for Agile software engineering models, Scrum cycles, and requirement analysis.</li>
+            </ol>
+        </div>
+
+    </div>
+
+</body>
+</html>
